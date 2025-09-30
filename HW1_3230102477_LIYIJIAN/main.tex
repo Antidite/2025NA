@@ -1,0 +1,203 @@
+\documentclass[a4paper]{article}
+\usepackage[affil-it]{authblk}
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{amsmath}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+\addbibresource{citation.bib}
+
+\begin{document}
+% =================================================
+\title{Numerical Analysis homework 1}
+
+\author{LI YIJIAN 3230102477
+  \thanks{Electronic address: \texttt{3230102477@zju.edu.cn}}}
+\affil{(Mathematics and Applied Mathematics 2302), Zhejiang University }
+
+
+\date{Due time: \today}
+
+\maketitle
+
+
+% ============================================
+\section*{I. The width of bisection interval in different loops}
+
+\subsection*{I-a}
+
+It's easy to find that the width is reduced by half at each step, so:
+\[
+width_n = (3.5-1.5)/2^n = \frac{1}{2^{n-1}}
+\]
+
+\subsection*{I-b}
+If we set the $\delta$ as postcondition or in $n$th step, we know:
+\[
+\sup|r - mid| \leqslant \delta/2 \quad or \quad \leqslant \frac{1}{2^n} 
+\]
+\section*{II. Prove the relative error of bisection no greater than $\epsilon$ in such condition}
+
+By I.b, we have: relative error e $= \frac{|mid - r|}{r}$ $ \leqslant \frac{b_0 - a_0}{2^{n+1}(a_0)}$, in which r is root($0 < a_0 \leqslant r$)
+, easily to prove both sides are positive.
+So:
+\[
+e \leqslant \epsilon \Leftarrow \frac{b_0 - a_0}{2^{n+1}a_0} \leqslant \epsilon \iff \log(b_0 - a_0) - (n + 1)\log 2 - \log a_0 \leqslant \log \epsilon
+\]
+i.e.
+\[
+ \log(b_0 - a_0) - \log a_0 - \log \epsilon \leqslant (n + 1) \log2
+\]
+\[
+\frac{ \log(b_0 - a_0) - \log a_0 - \log \epsilon }{\log2} - 1\leqslant n 
+\]
+\hfill$\square$
+
+\section*{III. Peform four iterations of Newton's method}
+Easily to acquire $p'(x) = 12x^2 - 4x$,by Newton's method formular:
+\[
+x_{n+1} = x_n - \frac{p(x_n)}{p'(x_n)}
+\]
+So
+\[
+x_{n+1} = x_n  - \frac{4x_n^3 - 2x_n^2 + 3}{12x_n^2 - 4x_n}
+\]
+\begin{table}[htbp]
+\centering
+\caption{Result}
+\begin{tabular}{lcccc}
+\toprule
+ & $x_1$  & $x_2$ & $x_3$ & $x_4$\\
+\midrule
+Value(approximate) & -0.8125 & -0.7708 & -0.7689 & -0.7688\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\section*{IV. The error analysis of the variation of Newton's method}
+By Taylor's expansion around $ x_0$ \& $\alpha$ with Cauchy remainder
+\[
+f(x) = f(\alpha) + f'(\alpha)(x - \alpha) + \frac{1}{2}f''(\eta )(x - \alpha)^2 = f'(\alpha)(x - \alpha) + \frac{1}{2}f''(\eta )(x - \alpha)^2
+\]
+\[
+f(x) = f(x_0) + f'(x_0)(x - x_0) + \frac{1}{2}f''(\xi)(x - x_0)^2
+\]
+so
+\[
+f(x_n) = f'(\alpha)(x_n - \alpha) + \frac{1}{2}f''(\eta_n)(x_n - \alpha)^2 \Rightarrow 
+\frac{f(x_n)}{f'(\alpha)} = x_n - \alpha + \frac{1}{2f'(\alpha)}f''(\eta_n)(x_n - \alpha)^2
+\]
+\[
+0 = f(\alpha) = f(x_0) + f'(x_0)(\alpha - x_0) + \frac{1}{2}f''(\xi)(\alpha - x_0)^2 
+\]
+Therefore
+\[
+x_{n+1} - \alpha = x_{n} - \frac{f(x_n)}{f'(x_0)} - \alpha = (1 - \frac{f'(\alpha)}{f'(x_0)})(x_n - \alpha) - \frac{1}{2f'(x_0)}f''(\eta_n)(x_n - \alpha)^2
+\]
+i.e.
+\[
+e_{n+1} = (1 - \frac{f'(\alpha)}{f'(x_0)})e_n - \frac{1}{2f'(x_0)}f''(\eta_n)e_n^2
+\]
+Therefore
+\[
+e_{n+1} =
+\begin{cases}
+Ce_n(s=1,C = (1 - \frac{f'(\alpha)}{f'(x_0)}) - \frac{1}{2f'(x_0)}f''(\eta_n)(x_n - \alpha)) & f'(\alpha) \neq f'(x_0), \\
+Ce_n^2(s=2,C = \frac{f''(\eta_n)}{2f'(x_0)})  & f'(\alpha) = f'(x_0).
+\end{cases}
+\]
+
+\section*{V. The convergence of the iteration}
+Answer is Yes, we prove that $\{|x_n|\}$ dreasing firstly, i.e.
+\[
+|x_{n+1}| = |\arctan (x_{n})| = \arctan(|x_n|) < |x_n|
+\]
+By a trivail inequation $\tan x > x $ when $x \in [0,\frac{\pi}{2} )$.Then
+we claim that $|x_n|\rightarrow 0$,if NOT:
+\[
+\exists \epsilon_0 > 0\quad\forall N > 0,\exists n > N \quad s.t.  \quad \epsilon_0 \leqslant |x_n| 
+\](actually $\forall n>N$ by dreasing).Then let$ f(x) = x - \arctan x$,so $f'(x) = 1 - \frac{1}{1+x^2} > 0 (\forall x > 0)$,So
+\[
+\forall n>N, 0 < \epsilon_0 - \arctan (\epsilon_0) \leqslant |x_n| - |x_{n+1}| 
+\]
+so,after finite (at most $[\frac{\epsilon_0}{\epsilon_0 - \arctan (\epsilon_0)}] + 1 := s$) steps.We will get $|x_{n+s}| < \epsilon_0$.
+Contradiction!
+\hfill$\square$
+
+\section*{VI. The convergence of continued fraction}
+Attention that $x_{n+1} = \frac{1}{p + x_n}$,let $f(x) = \frac{1}{p + x},(x > 0)$. Then because $p > 1,x > 0(x_n > 0)$:
+\[
+\forall x,y > 0,|f(x) - f(y)| = |\frac{1}{(p + x)(p+y)}||x-y| < \frac{1}{p^2}|x - y|
+\]
+So $f(x)$ is a contraction.
+Therefore $\{x_n\}$ converge by the Theorem in course.
+We suppose the limit is $x$,then
+\[
+\lim_{n\rightarrow \infty}x_{n+1} = \frac{1}{p + \lim_{n\rightarrow \infty}x_{n}} \Rightarrow x^2 + px - 1 = 0
+\]
+Consider that $x$ is positive, so $x = \frac{-p+\sqrt{p^2+4}}{2}$.
+
+\section*{VII. The error of changed range in bisection algorithm}
+In this case, it's not appropriate to use relative error to measure.Becasue the root $r$ may be zero, the fraction
+will be $\infty$ or undefined.Therefore we replace it with \textbf{absolute error}.
+\[
+e \leqslant \epsilon \Leftarrow \frac{b_0 - a_0}{2^{n+1}} \leqslant \epsilon \iff \log(b_0 - a_0) - (n + 1)\log 2 \leqslant \log \epsilon
+\]
+i.e.
+\[
+ \log(b_0 - a_0) - \log \epsilon \leqslant (n + 1) \log2
+\]
+\[
+\frac{ \log(b_0 - a_0) - \log \epsilon }{\log2} - 1\leqslant n 
+\]
+
+\section*{VIII. Newton's method fo solving multipicity root}
+\subsection*{VIII-a}
+\subsubsection*{Method1:}
+In Newton's method
+\[
+0 = f(\alpha) = f(x_n) + f'(x_n)(\alpha - x_n) + \frac{1}{2}f''(\xi_n)(\alpha - x_n)^2 
+\]
+So
+\[
+x_{n+1} - \alpha = x_n - \alpha - \frac{f(x_n)}{f'(x_n)} = \frac{1}{2f'(x_n)}f''(\xi_n)(x_n -\alpha)^2
+\]
+\[
+2f'(x_n)e_{n+1} =  f''(\xi_n)e_n^2
+\]
+\[
+\frac{2f'(x_n)}{f''(x_n)}e_{n+1} =  \frac{f''(\xi_n)}{f''(x_n)}e_n^2
+\]
+we let $n \rightarrow \infty$ and use L'Hopital's rule:
+\[
+\lim_{n \rightarrow \infty}\frac{e_{n+1}}{e_n^2} = \lim_{n \rightarrow \infty} \frac{f''(\xi_n)}{f''(x_n)} /\frac{2f'(x_n)}{f''(x_n)} = 1/\frac{f^{(k-1)}(\alpha)}{f^{(k)}(\alpha)} = \infty
+\]
+\[
+\lim_{n \rightarrow \infty}\frac{e_{n+1}}{e_n} = C
+\]
+Therefore, we can exam the convergence rate of sequence $\{x_n\}$.
+\subsubsection*{Method2:}
+we define $Q_n := \frac{|x_{n+1} - {x_n}|}{|f(x_n)|}$, the similar way to use L'Hopital's rule.
+If its value be stable at some constant, it's the simple root. Otherwise, it be greater and greater, then it's multipicity root.
+\subsection*{VIII-b}
+Given function $g(x) = \frac{f(x)}{(x-\alpha)^k}$, we can give $g(x)$ a defination at $\alpha$ by analytical extension.
+So well-defined.
+\[
+\frac{e_{n+1}}{e_n} = 1 - k\frac{g(x_n)(x_n - \alpha)^{k-1}}{k(x_n - \alpha)^{k-1}g(x_n) + (x_n - \alpha)^kg'(x_n)} = \frac{(x_n - \alpha)^kg'(x_n)}{k(x_n - \alpha)^{k-1}g(x_n) + (x_n - \alpha)^kg'(x_n)}
+\]
+\[
+= \frac{(x_n - \alpha)g'(x_n)}{kg(x_n) + (x_n - \alpha)g'(x_n)}
+\]
+So
+\[
+\lim_{n \rightarrow \infty}\frac{e_{n+1}}{e_n^2} = \lim_{n \rightarrow \infty}\frac{g'(x_n)}{kg(x_n) + (x_n - \alpha)g'(x_n)} \neq 0
+\]
+\hfill$\square$
+\end{document}

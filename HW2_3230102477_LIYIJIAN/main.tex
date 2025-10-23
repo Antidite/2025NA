@@ -1,0 +1,220 @@
+\documentclass[a4paper]{article}
+\usepackage[affil-it]{authblk}
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\usepackage{amsmath,amssymb,amsfonts}
+
+\usepackage{geometry}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+\addbibresource{citation.bib}
+
+\begin{document}
+% =================================================
+\title{Numerical Analysis homework II}
+
+\author{Your name 3230102477
+  \thanks{Electronic address: \texttt{3230102477@zju.edu.cn}}}
+\affil{(Mathematics and Applied Mathematics 2302), Zhejiang University }
+
+
+\date{Due time: \today}
+
+\maketitle
+
+\begin{abstract}
+    The abstract is not necessary for the theoretical homework, 
+    but for the programming project, 
+    you are encouraged to write one.      
+\end{abstract}
+
+
+
+
+
+% ============================================
+\section*{I. Determine the remainder}
+By Newton interpolation $\forall x \in (x_0,x_1)$:
+\[
+f(x) = f[x_0] + f[x_0,x_1](x-x_0) + f[x_0,x_1,x](x-x_0)(x-x_1)
+\]
+So,we get:
+\[
+\frac{f''(\xi(x))}{2} = f[x_0,x_1,x]
+\]
+i.e.
+\[
+\frac{1}{(\xi(x))^3} = \frac{f[x_0,x_1] - f[x_1,x]}{x_0 - x} = 
+\frac{\frac{f[x_0] - f[x_1]}{x_0 - x_1}-\frac{f[x_1] - f[x]}{x_1 - x}}{{x_0 - x}}
+=\frac{ \frac{1}{2x}-\frac{1}{2}}{1-x} = \frac{1}{2x}
+\]
+so $\xi(x) = (2x)^{\frac{1}{3}}$.\\
+Easily to continuouly extend an easy function like $\xi(x)$ to the clousre to its domain.
+\\
+So $\xi(x)_{\max} = 4^{\frac{1}{3}}$,$\xi(x)_{\min} = 2^{\frac{1}{3}}$,
+$f''(\xi(x))_{\max} = \frac{1}{2x}_{\max} = \frac{1}{2}$.
+
+
+\section*{II. Interpolation of Polynomials in $\mathbb{P}^{+}_{2n}$}
+May as well $x_0 < x_2 < \cdots x_n$,we choose
+\[
+\pi_k(x) = \prod^{n}_{i=0,i\neq k} \frac{(x-x_i)^2}{(x_k - x_i)^2}\in \mathbb{P}^{+}_{2n}
+\] 
+obviously:\[
+\begin{cases}
+\pi_k(x_i) = 1 ,i = k \\
+\pi_k(x_i) = 0 , i \neq k
+\end{cases}
+\]
+then:
+\[p(x) = \sum^{n}_{k = 0}f_k \pi_k(x) \in \mathbb{P}^{+}_{2n},(0 \leq f_k) \]
+and $\forall k \in \{0,1,\cdots n\}$, $p(x_k) = f_k \pi_k(x) = f_k$.
+
+\section*{III. The remainder of $e^x$}
+\subsection*{III.a}
+When $n = 1$,LHS $= f[t,t+1] = \frac{e^{t+1}-e^t}{t+1-t} = (e - 1)e^t = $ RHS. We suppose $n = k$ has done, then:
+\[
+f[t,t+1,\ldots,t+k+1] = \frac{f[t+1,t+2,\ldots,t+k+1] - f[t,t+1,\ldots,t+k]}{t+k+1 - t} 
+= \frac{(e-1)^k(e^{t+1}-e^t)}{(k+1)k!}= RHS
+\]
+\subsection*{III.b}
+By III.a we know 
+\[
+\frac{(e-1)^n e^0}{n!} = \frac{1}{n!}f^{(n)}(\xi) = \frac{1}{n!}e^{\xi} \Rightarrow
+\xi = n\ln(e-1) > 0.54n
+\]
+So $\xi$ located to the right of the midpoint $n/2$.
+\section*{IV. Interpolation of given points}
+\subsection*{IV.a}
+By Newton Interpolation, we get $f[0] = 5,f[1] = 3,f[3] = 5,f[4]=12$.\\
+$f[0,1] = -2,f[1,3] = 1,f[3,4] = 7$.\\
+$f[0,1,3] = 1,f[1,3,4] = 2$\\
+$f[0,1,3,4] = \frac{1}{4}$. So $p_3(f;x) = 5 - 2x + x(x-1) + \frac{1}{4}x(x-1)(x-3)$.
+\subsection*{IV.b}
+By IV.a,we know \[p'_3(f;x) = -3 + 2x + \frac{1}{4}[(x-1)(x-3) + x(x-3) + x(x-1)] =  -\frac{9}{4} + \frac{3}{4}x^2 \]\\
+when $p'_3(f;x) = 0,\Rightarrow x = \sqrt{3} , -\sqrt{3}$, and $p''_3(f;x) = \frac{3}{2}x > 0,(x\in (1,3))$. So, we get
+$\sqrt{3}$ is a approximate value of $x_{\min}$
+\[
+\]
+
+\section*{V. Interpolation of given points}
+\subsection*{V.a}
+$ f[0] = 0,f[1] = 1,f[2] = 2^7$ \\
+$ f[0,1] = 1,f[1,1] = 7,f[1,2] = 2^7 - 1,f[2,2] = 7*2^6 $\\
+$ f[0,1,1] = 6,f[1,1,1] = 21,f[1,1,2] = 2^7 - 8,f[1,2,2] = 5*2^6 + 1$\\
+$ f[0,1,1,1] = 15,f[1,1,1,2] = 2^7 - 29,f[1,1,2,2] = 3*2^6 + 9$ \\
+$ f[0,1,1,1,2] = 2^6 - 22,f[1,1,1,2,2] = 2^6 + 38$\\
+$ f[0,1,1,1,2,2] = 30$
+\subsection*{V.b}
+$f^{(5)}(\xi) = \frac{7!}{2*5!} \xi^2 = 30$, so $\xi^2 = \frac{10}{7}$, so $\xi = \sqrt{\frac{10}{7}}$
+
+\section*{VI. Hermite Interpolation of given points}
+\subsection*{VI.a}
+$f[0] = 1,f[1] = 2,f[3] = 0$\\
+$f[0,1] = 1,f[1,1] = -1,f[1,3] = -1,f[3,3] = 0$\\
+$f[0,1,1] = -2,f[1,1,3] = 0,f[1,3,3] = \frac{1}{2}$\\
+$f[0,1,1,3] = \frac{2}{3},f[1,1,3,3] = \frac{1}{4}$\\
+$f[0,1,1,3,3] = -\frac{5}{36}$\\
+So,$f(2) = 1 + (2-0) -2(2-0)(2-1) + \frac{2}{3}(2-0)(2-1)^2 -\frac{5}{36}(2-0)(2-1)^2(2-3) = 1+2-4+
+\frac{4}{3}+\frac{5}{18} = \frac{11}{18}$
+\subsection*{VI.b}
+By Hermite Interpolation, we know
+\[
+f(x) - p(f;x) = f[0,1,1,3,3,x]x(x-1)^2(x-3)^2 = \frac{f^{(5)}(\xi(x))}{5!}x(x-1)^2(x-3)^2
+\]
+Considering $x(x-1)^2(x-3)^2_{\max}\approx 2.0594$
+So the error
+\[
+|f(x) - p(f;x)| \leqslant  2.06\frac{M}{5!}
+\]
+\section*{VII. Prove equation}
+We prove by induction, when $ k = 1$, $\Delta f(x) = hf[x_0,x_1]$, $\nabla f(x)= hf[x_0,x_{-1}]$.\\
+Assume that $ k= n $ has been proved, when $k = n+1$:
+\[
+\Delta^{k+1} f(x) = \Delta^{k} f(x+h) - \Delta^{k} f(x)
+= k!h^k f[x_1,x_2,\ldots,x_{k+1}]- k!h^k f[x_0,x_2,\ldots,x_k]
+\]
+then By Newton Interpolation:
+\[
+\Delta^{k+1} f(x) = (k+1)!h^{k+1}f[x_0,x_1,\ldots,x_{k+1}]
+\]
+the same way for $\nabla$
+Assume that $ k= n $ has been proved, when $k = n+1$:
+\[
+\nabla^{k+1} f(x) = \nabla^{k} f(x) - \nabla^{k} f(x-h)
+= k!h^k f[x_0,x_{-1},\ldots,x_{-k}] -k!h^k f[x_{-1},x_{-2},\ldots,x_{-k-1}]
+\]
+then By Newton Interpolation:
+\[
+\nabla^{k+1} f(x) = (k+1)!h^{k+1}f[x_{0},x_{-1},\ldots,x_{-k-1}]
+\]
+
+\section*{VIII. Prove equation}
+By defination of $\frac{\partial f}{\partial x_0}$ ,we know
+\[
+\frac{\partial f[x_0,x_1,\ldots,x_n]}{\partial x_0} =\lim_{\Delta x \rightarrow 0} \frac{f[x_0+\Delta x,x_1,\ldots,x_n]-f[x_0,x_1,\ldots,x_n]}{\Delta x}
+= \lim_{\Delta x \rightarrow 0} f[x_0+\Delta x,x_0,x_1,\ldots,x_n]
+\]
+And f is differentiable at $x_0$, so f is continuous at $x_0$, so with finite steps, the error simulate in progress will control by 
+a const c and $\varepsilon$ by the continuous at $x_0$.i.e.
+\[ 
+|f[x_0+\Delta x] - f[x_0]| < \varepsilon,|f[x_0+\Delta x,x_0] - f[x_0,x_0]|< \varepsilon
+\]
+we can prove by induction,every interpolation has only a $c\varepsilon$ difference, in which c is a constant
+$\Rightarrow$
+\[\lim_{\Delta x \rightarrow 0} f[x_0+\Delta x,x_0,x_1,\ldots,x_n] = f[x_0,x_0,x_1,\ldots,x_n]
+\]
+
+\section*{IX. Min-Max problem}
+i.e. to solve:
+\[
+\min_{a_i \in \mathbb{R},i \in {1,2,\cdots n}} \max_{x \in [a,b]}|a_0 x^n
++a_1 x^{n-1} + \cdots + a_n| = |a_0|\min_{a_i \in \mathbb{R},i \in {1,2,\cdots n}} \max_{x \in [a,b]}|x^n
++\frac{a_1}{a_0} x^{n-1} + \cdots + \frac{a_n}{a_0}|
+\]
+$\Rightarrow$
+\[|a_0|\min_{a_i \in \mathbb{R},i \in {1,2,\cdots n}} \max_{x \in [a,b]}| x^n
++a_1 x^{n-1} + \cdots + a_n| = |a_0|\min_{a_i \in \mathbb{R},i \in {1,2,\cdots n}} \max_{x \in [-\frac{b-a}{2},\frac{b-a}{2}]}| x^n
++a_1 x^{n-1} + \cdots + a_n|
+\]
+Notice that $a < b$ otherwise the value is trivial
+$\Rightarrow$
+\[
+|a_0|\min_{a_i \in \mathbb{R},i \in {1,2,\cdots n}} \max_{x \in [-1,1]}| (\frac{b-a}{2})^n x^n
++(\frac{b-a}{2})^{n-1}a_1 x^{n-1} + \cdots + a_n| = (\frac{b-a}{2})^{n}|a_0|\min_{a_i \in \mathbb{R},i \in {1,2,\cdots n}} \max_{x \in [-1,1]}|  x^n
++a_1 x^{n-1} + \cdots + a_n| 
+\]
+\[
+\geqslant (\frac{b-a}{2})^{n}|a_0|\min_{a_i \in \mathbb{R},i \in {1,2,\cdots n}}\frac{1}{2^{n-1}} = |a_0|\frac{(b-a)^n}{2^{2n-1}}
+\]
+In which the last ``$\geqslant$" is by the corollary in the book. And we know that choose Chebyshev Polynomials can get the equal. 
+\section*{X.The minimal element in infty norm}
+If NOT, we assume $\exists p\in \mathbb{P}^a_n$. s.t.
+\[
+||p||_{\infty} < ||\hat{p}_n||_{\infty}
+\]
+Let $Q(x) = \hat{p}_n(x) - p(x)$, then in the $n+1$ extreme points ($\in [-1,1]$) of $T_n(x)$,like the proof in Chebyshev Theorem
+$Q(x)$ will change the signals $n+1$ times,
+so $Q(x)$ have $n$ zeros in $[-1,1]$. Meanwhile, $Q(a) = 1-1 = 0$.So $Q(x)$ have $n+1$ zeros, and $Q(x) \in \mathbb{P}_n$ ,so $Q(x)\equiv 0$. Contracdiction!
+
+\section*{XI.Lemma Proof}
+\[
+RHS = \binom{n}{k}t^k (1-t)^{n-k} \frac{n-k}{n} + \binom{n}{k+1}t^{k+1} (1-t)^{n-k-1} \frac{k+1}{n}
+\]
+\[
+LHS = \binom{n-1}{k}t^k (1-t)^{n-1-k} 
+\]
+Notice that $\binom{n}{k}\frac{n-k}{n} = \frac{n!}{k!(n-k)!}\frac{n-k}{n} = \frac{n!}{(k+1)!(n-k-1)!}\frac{k+1}{n} = \binom{n}{k+1}\frac{k+1}{n}
+= \frac{(n-1)!}{k!(n-k-1)!} = \binom{n-1}{k}$
+. So \[
+RHS = \binom{n-1}{k} t^k(1-t)^{n-k-1}(1-t+t) = \binom{n-1}{k}t^k (1-t)^{n-1-k} = LHS
+\]
+\section*{XII.Lemma Proof}
+
+\[
+\int_{0}^{1}b_{n,k}(t) dt= \int_{0}^{1}\binom{n}{k}t^k (1-t)^{n-k} dt = \binom{n}{k} B(k+1,n+1-k) = \binom{n}{k} 
+\frac{\Gamma(k+1)\Gamma(n+1-k)}{\Gamma(n+2)} = \frac{n!k!(n-k)!}{(n-k)!k!(n+1)!} = \frac{1}{n+1}
+\]
+\end{document}

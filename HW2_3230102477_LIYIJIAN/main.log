@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2025.3.1)  23 OCT 2025 20:31
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2025.3.1)  25 OCT 2025 21:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -480,7 +480,7 @@ Overfull \hbox (20.32217pt too wide) detected at line 188
  []
 
 [3]
-Overfull \hbox (12.61522pt too wide) detected at line 219
+Overfull \hbox (12.61522pt too wide) detected at line 223
 [][] \OML/cmm/m/it/10 b[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 dt \OT1/cmr/m/n/10 = [][] []\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 (1 \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 dt \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 B\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 k \OT1/cmr/m/n/10 + 1\OML/cmm/m/it/10 ; n \OT1/cmr/m/n/10 + 1 \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 k\OT1/cmr/m/n/10 ) = [][] = [] = []
  []
 

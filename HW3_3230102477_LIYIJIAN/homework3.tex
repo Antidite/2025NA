@@ -23,7 +23,7 @@
 
 
 \date{Due time: \today}
-
+\maketitle
 
 
 
@@ -406,84 +406,145 @@ We take $i = 1$ situation as an example. In general cases, only need to replace 
   \end{axis}
 \end{tikzpicture}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\section*{VI. Hermite Interpolation of given points}
-\subsection*{VI.a}
-$f[0] = 1,f[1] = 2,f[3] = 0$\\
-$f[0,1] = 1,f[1,1] = -1,f[1,3] = -1,f[3,3] = 0$\\
-$f[0,1,1] = -2,f[1,1,3] = 0,f[1,3,3] = \frac{1}{2}$\\
-$f[0,1,1,3] = \frac{2}{3},f[1,1,3,3] = \frac{1}{4}$\\
-$f[0,1,1,3,3] = -\frac{5}{36}$\\
-So,$f(2) = 1 + (2-0) -2(2-0)(2-1) + \frac{2}{3}(2-0)(2-1)^2 -\frac{5}{36}(2-0)(2-1)^2(2-3) = 1+2-4+
-\frac{4}{3}+\frac{5}{18} = \frac{11}{18}$
-\subsection*{VI.b}
-By Hermite Interpolation, we know
+\section*{VI. Vertify a theorem}
+Firstly we know:
 \[
-f(x) - p(f;x) = f[0,1,1,3,3,x]x(x-1)^2(x-3)^2 = \frac{f^{(5)}(\xi(x))}{5!}x(x-1)^2(x-3)^2
+LHS = [t_i,t_{i+1},t_{i+2}](t-x)^2_+ -[t_{i-1},t_{i},t_{i+1}](t-x)^2_+
 \]
-Considering $x(x-1)^2(x-3)^2_{\max}\approx 2.0594$
-So the error
+$=$
 \[
-|f(x) - p(f;x)| \leqslant  2.06\frac{M}{5!}
+\frac{[t_{i+1},t_{i+2}](t-x)^2_+ - [t_i,t_{i+1}](t-x)^2_+}{t_{i+2}-t_i}
+-
+\frac{[t_{i},t_{i+1}](t-x)^2_+ - [t_{i-1},t_{i}](t-x)^2_+}{t_{i+1}-t_{i-1}}
 \]
-\section*{VII. Prove equation}
-We prove by induction, when $ k = 1$, $\Delta f(x) = hf[x_0,x_1]$, $\nabla f(x)= hf[x_0,x_{-1}]$.\\
-Assume that $ k= n $ has been proved, when $k = n+1$:
+$=$
 \[
-\Delta^{k+1} f(x) = \Delta^{k} f(x+h) - \Delta^{k} f(x)
-= k!h^k f[x_1,x_2,\ldots,x_{k+1}]- k!h^k f[x_0,x_2,\ldots,x_k]
+\frac{(t_{i+2}-x)^2_+ -(t_{i+1}-x)^2_+}{(t_{i+2}-t_{i+1})(t_{i+2}-t_i)}
+-\frac{(t_{i+1}-x)^2_+ -(t_{i}-x)^2_+}{(t_{i+1}-t_{i})(t_{i+2}-t_i)}-
+\frac{(t_{i+1}-x)^2_+ -(t_{i}-x)^2_+}{(t_{i+1}-t_{i})(t_{i+1}-t_{i-1})}
++\frac{(t_{i}-x)^2_+ -(t_{i-1}-x)^2_+}{(t_{i}-t_{i-1})(t_{i+1}-t_{i-1})}
 \]
-then By Newton Interpolation:
+When $x>t_{i+2}$ $LHS = 0 = RHS$.\\
+When $x\leqslant t_{i-1}$ 
 \[
-\Delta^{k+1} f(x) = (k+1)!h^{k+1}f[x_0,x_1,\ldots,x_{k+1}]
+LHS = \frac{(t_{i+2}-x)^2 -(t_{i+1}-x)^2}{(t_{i+2}-t_{i+1})(t_{i+2}-t_i)}
+-\frac{(t_{i+1}-x)^2 -(t_{i}-x)^2}{(t_{i+1}-t_{i})(t_{i+2}-t_i)}-
+\frac{(t_{i+1}-x)^2 -(t_{i}-x)^2}{(t_{i+1}-t_{i})(t_{i+1}-t_{i-1})}
++\frac{(t_{i}-x)^2 -(t_{i-1}-x)^2}{(t_{i}-t_{i-1})(t_{i+1}-t_{i-1})}
 \]
-the same way for $\nabla$
-Assume that $ k= n $ has been proved, when $k = n+1$:
+$=$
 \[
-\nabla^{k+1} f(x) = \nabla^{k} f(x) - \nabla^{k} f(x-h)
-= k!h^k f[x_0,x_{-1},\ldots,x_{-k}] -k!h^k f[x_{-1},x_{-2},\ldots,x_{-k-1}]
+\frac{t_{i+2}+t_{i+1}-2x}{t_{i+2}-t_i}
+-\frac{t_{i+1}+t_{i}-2x}{t_{i+2}-t_i}-
+\frac{t_{i+1}+t_{i}-2x}{t_{i+1}-t_{i-1}}
++\frac{t_{i}+t_{i-1}-2x}{t_{i+1}-t_{i-1}} = 1-1 = 0
 \]
-then By Newton Interpolation:
+When $t_{i-1}<x\leqslant t_{i}$ 
 \[
-\nabla^{k+1} f(x) = (k+1)!h^{k+1}f[x_{0},x_{-1},\ldots,x_{-k-1}]
+LHS =
+\frac{t_{i+2}+t_{i+1}-2x}{t_{i+2}-t_i}
+-\frac{t_{i+1}+t_{i}-2x}{t_{i+2}-t_i}-
+\frac{t_{i+1}+t_{i}-2x}{t_{i+1}-t_{i-1}}
++\frac{(t_{i}-x)^2}{(t_{i}-t_{i-1})(t_{i+1}-t_{i-1})}
 \]
+$=$
+\[
+\frac{2x - t_{i-1}-t_{i}}{t_{i+1}-t_{i-1}} +\frac{(t_{i}-x)^2}{(t_{i}-t_{i-1})(t_{i+1}-t_{i-1})}
+=
+ \frac{(t_{i-1}-x)^2}{(t_{i}-t_{i-1})(t_{i+1}-t_{i-1})} = RHS
+\]
+When $t_{i}<x\leqslant t_{i+1}$ 
+\[
+LHS =
+\frac{t_{i+2}+t_{i+1}-2x}{t_{i+2}-t_i}
+-\frac{(t_{i+1}-x)^2 }{(t_{i+1}-t_{i})(t_{i+2}-t_i)}-
+\frac{(t_{i+1}-x)^2}{(t_{i+1}-t_{i})(t_{i+1}-t_{i-1})}
+\]
+at $t_{i+1}$ $LHS|_{t_{i+1}} = \frac{t_{i+2}-t_{i+1}}{t_{i+2}-t_i} = RHS|_{t_{i+1}}$\\
+Besides $\frac{d}{dx}LHS = \frac{2(t_{i+1}-x) }{(t_{i+1}-t_{i})(t_{i+2}-t_i)}+
+\frac{2(t_{i+1}-x)}{(t_{i+1}-t_{i})(t_{i+1}-t_{i-1})}-\frac{2}{t_{i+2}-t_i} = 
+\frac{-2}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}+
+\frac{-2}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})} = \frac{d}{dx}RHS$ \\
+So $LHS = RHS,t_{i}<x\leqslant t_{i+1}$.\\
+When $t_{i+1}<x\leqslant t_{i+2}$ 
+\[
+LHS =
+\frac{(t_{i+2}-x)^2}{(t_{i+2}-t_{i+1})(t_{i+2}-t_i)} = RHS
+\]
+Then $LHS = RHS$.
 
-\section*{VIII. Prove equation}
-By defination of $\frac{\partial f}{\partial x_0}$ ,we know
+\section*{VII. Scaled integral of B-splines}
+By the derivatives of B-splines
 \[
-\frac{\partial f[x_0,x_1,\ldots,x_n]}{\partial x_0} =\lim_{\Delta x \rightarrow 0} \frac{f[x_0+\Delta x,x_1,\ldots,x_n]-f[x_0,x_1,\ldots,x_n]}{\Delta x}
-= \lim_{\Delta x \rightarrow 0} f[x_0+\Delta x,x_0,x_1,\ldots,x_n]
+\frac{d}{dx}B_i^{n+1}(x) = \frac{(n+1)B^{n}_i(x)}{t_{i+n}-t_{i-1}}-
+\frac{(n+1)B^{n}_{i+1}(x)}{t_{i+n+1}-t_{i}}
 \]
-And f is differentiable at $x_0$, so f is continuous at $x_0$, so with finite steps, the error simulate in progress will control by 
-a const c and $\varepsilon$ by the continuous at $x_0$.i.e.
-\[ 
-|f[x_0+\Delta x] - f[x_0]| < \varepsilon,|f[x_0+\Delta x,x_0] - f[x_0,x_0]|< \varepsilon
-\]
-we can prove by induction,every interpolation has only a $c\varepsilon$ difference, in which c is a constant
+Since the support of $B_i^{n+1}(x)$ is finite
 $\Rightarrow$
-\[\lim_{\Delta x \rightarrow 0} f[x_0+\Delta x,x_0,x_1,\ldots,x_n] = f[x_0,x_0,x_1,\ldots,x_n]
-\]
 
-\section*{IX. Min-Max problem}
-i.e. to solve:
 \[
-\min_{a_i \in \mathbb{R},i \in {1,2,\cdots n}} \max_{x \in [a,b]}|a_0 x^n
-+a_1 x^{n-1} + \cdots + a_n|
+\int_{\mathbb{R}}\frac{d}{dx}B_i^{n+1}(x)dx = \int_{\mathbb{R}}\frac{(n+1)B^{n}_i(x)}{t_{i+n}-t_{i-1}}dx-
+\int_{\mathbb{R}}\frac{(n+1)B^{n}_{i+1}(x)}{t_{i+n+1}-t_{i}}dx
+ = 0
 \]
+$\Rightarrow$
+\[\frac{1}{t_{i+n}-t_{i-1}}\int_{t_{i-1}}^{t_{i+n}}B^{n}_i(x)dx=
+\frac{1}{t_{i+n+1}-t_{i}}\int_{t_{i}}^{t_{i+n+1}}B^{n}_{i+1}(x)dx
+\]
+So the scaled integral of B-splines are independent of its index $i$. 
+
+\section*{VIII. Symmetric Polynomials}
+\subsection*{VIII.a}
+
+\[
+[x_i,x_{i+1},x_{i+2}]x^4
+=\frac{[x_{i+1},x_{i+2}]x^4 - [x_{i},x_{i+1}]x^4}{x_{i+2}-x_{i}}
+\]
+$=$
+\[
+\frac{x_{i+2}^4-x_{i+1}^4}{(x_{i+2}-x_{i})(x_{i+2}-x_{i+1})} - 
+\frac{x_{i+1}^4-x_{i}^4}{(x_{i+2}-x_{i})(x_{i+1}-x_{i})} 
+= \frac{(x_{i+2}^2+x_{i+1}^2)(x_{i+2}+x_{i+1})}{x_{i+2}-x_{i}} - 
+\frac{(x_{i+1}^2+x_{i}^2)(x_{i+1}+x_{i})}{x_{i+2}-x_{i}} 
+\]
+$=$
+\[
+\frac{(x_{i+2}^2+x_{i+1}^2)(x_{i+2}+x_{i+1})-(x_{i+1}^2+x_{i}^2)(x_{i+1}+x_{i})}{x_{i+2}-x_{i}} 
+=\frac{x_{i+2}^3+x_{i+2}^2x_{i+1}+x_{i+2}x_{i+1}^2-x_{i+1}^2x_i-x_i^2x_{i+1}-x_i^3}{x_{i+2}-x_{i}} 
+\]
+$=$
+\[
+x^2_{i+2}+x_i^2+x_{i+2}x_i+x_{i+1}^2+x_{i+2}x_{i+1}+x_{i+1}x_i=\tau_{2}(x_i,x_{i+1},x_{i+2})
+\]
+\subsection*{VIII.b}
+By the lemma of complete symmetric Polynomials:
+\[
+\tau_{k+1}(x_1,\ldots,x_n,x_{n+1})=
+\tau_{k+1}(x_1,\ldots,x_n) + x_{n+1}\tau_{k}(x_1,\ldots,x_n,x_{n+1})
+\]
+We prove it by induction on n, when $n = 0$, it's trivial to see:
+\[
+\tau_m(x_i) = [x_i]x^m
+\]
+Assume when $n=k<m-1$ satisfies, suffices to show $n = k+1$ satisfies. Notice that:
+\[
+(x_{i+k+1}-x_1)\tau_{m-k-1}(x_{i},\ldots,x_{i+k+1}) = \tau_{m-k}(x_1,\ldots,x_{i+k},x_{i+k+1}) - 
+\tau_{m-k}(x_1,\ldots,x_{i+k})-x_1\tau_{m-k-1}(x_{i},\ldots,x_{i+k+1})
+\]
+$=$
+\[
+ \tau_{m-k}(x_2,\ldots,x_{i+k},x_{i+k+1}) + x_1\tau_{m-k-1}(x_1,\ldots,x_{i+k},x_{i+k+1}) -
+\tau_{m-k}(x_1,\ldots,x_{i+k})-x_1\tau_{m-k-1}(x_{i},\ldots,x_{i+k+1})
+\]
+$=$
+\[
+ \tau_{m-k}(x_2,\ldots,x_{i+k},x_{i+k+1})-
+\tau_{m-k}(x_1,\ldots,x_{i+k}) = [x_2,\ldots,x_{i+k}]x^{m} - [x_1,\ldots,x_{i+k}]x^{m}
+\]
+$\Rightarrow$
+\[
+\tau_{m-k-1}(x_{i},\ldots,x_{i+k+1}) = \frac{[x_2,\ldots,x_{i+k+1}]x^{m} - [x_1,\ldots,x_{i+k}]x^{m}}{x_{i+k+1}-x_1}
+= [x_1,\ldots,x_{i+k+1}]x^{m}
+\]
+which complete the proof.
 \end{document}

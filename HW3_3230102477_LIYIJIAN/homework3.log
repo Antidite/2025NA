@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2025.3.1)  10 NOV 2025 21:45
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2025.3.1)  11 NOV 2025 18:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -722,11 +722,11 @@ Package pgfplots Warning: running in backwards compatibility mode (unsuitable ti
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 34.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 26.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 34.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 26.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
@@ -737,11 +737,11 @@ Package logreq Info: Writing requests to 'homework3.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 31545 strings out of 476191
- 775129 string characters out of 5812073
- 1428745 words of memory out of 5000000
- 51841 multiletter control sequences out of 15000+600000
- 470998 words of font info for 41 fonts, out of 8000000 for 9000
+ 31589 strings out of 476191
+ 775820 string characters out of 5812073
+ 1430719 words of memory out of 5000000
+ 51866 multiletter control sequences out of 15000+600000
+ 475683 words of font info for 64 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  100i,8n,104p,1906b,1877s stack positions out of 5000i,500n,10000p,200000b,80000s
 

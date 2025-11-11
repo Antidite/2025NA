@@ -1,0 +1,489 @@
+\documentclass[a4paper]{article}
+\usepackage[affil-it]{authblk}
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+\usepackage{geometry}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+\addbibresource{citation.bib}
+
+\begin{document}
+% =================================================
+\title{Numerical Analysis homework III}
+
+\author{LI YIJIAN 3230102477
+  \thanks{Electronic address: \texttt{3230102477@zju.edu.cn}}}
+\affil{(Mathematics and Applied Mathematics 2302), Zhejiang University }
+
+
+\date{Due time: \today}
+
+
+
+
+
+
+% ============================================
+\section*{I. Determine and check s is or not natural}
+We know $p(x)$ satisfies 
+\[
+\begin{cases}
+p(0) = 0 \\
+p(1) = (2-x)^3|_{x=1} = 1 \\
+p'(1) = ((2-x)^3)'|_{x=1} = -3(2-x)^2|_{x=1} = -3 \\
+p''(1) = 6(2-x)|_{x=1} = 6
+\end{cases}
+\]
+We assume $p(x) = ax^3 + bx^2 + cx + d$, then 
+\[
+\begin{cases}
+d = 0 \\
+a+b+c+d= 1 \\
+3a+2b+c = -3 \\
+6a+2b = 6
+\end{cases}
+\Rightarrow
+\begin{cases}
+a = 7 \\
+b = -18 \\
+c = 12 \\
+d = 0
+\end{cases}
+\]
+So $p(x) = 7x^3 - 18x^2 + 12x$.
+\[
+s''(0) = -36 \neq 0
+\]
+So $s(x)$ is NOT natural cubic spline.
+
+
+\section*{II. Interpolation of f}
+\subsection*{II.a}
+Actually we have condition:
+\[
+\begin{cases}
+p_i(x_i) = f_i \quad \& \quad p_i(x_{i+1}) = f_{i+1} ,i= 1 ,2 ,\cdots, n-1 \\
+p_i'(x_{i+1}) = p_{i+1}'(x_{i+1}), i= 1 ,2, \cdots ,n-2
+\end{cases}
+\]
+$3n-4$ conditions in all. To determine $s$ uniquely, by the theory of the rank of matrix  we need $(n-1)*3 = 3n-3$ at least.
+So we need an additional condition to ensure the equation has the unique solution.
+\subsection*{II.b}
+Assume $p_i(x) = a_i (x-x_i)^2 + b_i (x-x_i) + c_i$ by (a) we have
+\[
+p_i(x_i) = f_i \quad \& \quad p_i(x_{i+1}) \quad \& \quad
+p_i'(x_i) = m_i
+\]
+Then $\forall i = 1,2,\ldots,n-1$:
+\[
+\begin{cases}
+p_i(x_i) = c_i = f_i\\
+p_i'(x_i) = b_i = m_i\\
+p_i(x_{i+1}) = a_i(x_{i+1} - x_i)^2+b_i(x_{i+1} - x_i)+c_i = f_{i+1}
+\end{cases}
+\Rightarrow
+\begin{cases}
+a_i = \frac{f_{i+1} - f_i}{(x_{i+1} - x_i)^2} - \frac{m_i}{x_{i+1} - x_i}\\
+b_i = m_i \\
+c_i = f_i
+\end{cases}
+\]
+Then $\forall i = 1,2,\ldots,n-1$, $p_i(x) = (\frac{f_{i+1} - f_i}{(x_{i+1} - x_i)^2} - 
+\frac{m_i}{x_{i+1} - x_i})(x-x_i)^2 + m_i(x-x_i) + f_i$
+
+\subsection*{II.c}
+By (b) we get 
+\[
+m_{i+1} = p'_i(x_{i+1}) = 2\frac{f_{i+1} - f_i}{x_{i+1} - x_i} - m_i
+\]
+So we can compute $m_2$, then $m_3$, $\cdots m_{n-1}$ by induction.
+
+
+\section*{III. Determine a natural cubic spline}
+Assume $s_2(x) = ax^3+bx^2+dx+e$. Then we know 
+\[
+\begin{cases}
+s_1''(-1) = 0 \\
+s_2''(1) = 0 \\
+s_2(0) = s_1(0) = 1+c \\
+s_2'(0) = s_1'(0) = 1+3c \\
+s_2''(0) = s_1''(0) = 6c
+\end{cases}
+\Rightarrow
+\begin{cases}
+0 = 0 \\
+6a+2b = 0 \\
+e = 1+c \\
+d = 1+3c \\
+2b = 6c
+\end{cases}
+\Rightarrow
+\begin{cases}
+a = -c\\
+e = 1+c \\
+d = 3c \\
+b = 3c
+\end{cases}
+\]
+So $s_2(x) = -cx^3 + 3cx^2 + 3cx + 1+c$. Then if $s(1) = -1 
+\Rightarrow s_2(1) = -c + 3c +3c +1+c = 6c+1 = -1 \Rightarrow c = -\frac{1}{3}$.
+
+
+
+
+\section*{IV. Cubic spline interpolation of given function}
+\subsection*{IV.a}
+We know 
+\[
+\begin{cases}
+f(-1) = 0 \\
+f(0) = 1 \\
+f(1) = 0
+\end{cases}
+\]
+Assume 
+\[
+s(x) = 
+\begin{cases}
+p_1(x) = a_1 x^3+b_1x^2 + c_1x + d_1 , x\in [-1,0] \\
+p_2(x) = a_2 x^3+b_2x^2 + c_2x + d_2 ,x\in [0,1] \\
+\end{cases}
+\]
+Then we get 
+\[
+\begin{cases}
+-a_1 + b_1 - c_1 +d_1 = 0 \\
+d_1 = d_2 = 1 \\
+a_2 + b_2 + c_2 +d_2= 0 \\
+c_1 = c_2 \\
+b_1 = b_2 \\
+6a_2 + 2b_2 = 0 \\
+-6a_1 + 2b_1 = 0
+\end{cases}
+\Rightarrow
+\begin{cases}
+a_1 = -\frac{1}{2} \\
+a_2 = \frac{1}{2}\\
+b_1 = -\frac{3}{2}\\
+b_2 = -\frac{3}{2} \\
+c_1 = 0 \\
+c_2 = 0 \\
+d_1 = 1 \\
+d_2 = 1
+\end{cases}
+\]
+So 
+
+\[
+s(x) = 
+\begin{cases}
+p_1(x) = -\frac{1}{2} x^3-\frac{3}{2}x^2 + 1 , x\in [-1,0] \\
+p_2(x) = \frac{1}{2} x^3-\frac{3}{2}x^2  + 1 ,x\in [0,1] \\
+\end{cases}
+\]
+
+\subsection*{IV.b}
+By Newton's interpolation, we get $g(x) = 1 - x^2$. Then $g''(x) \equiv -2$. so
+\[
+\int_{-1}^{1}|g''(x)|^2dx = 8 > \int_{-1}^{1}|s''(x)|^2dx =  \int_{0}^{1}|3x-3|^2dx + \int_{-1}^{0}|3x+3|^2dx = 3 + 3 + 18 -9 -9 = 6
+\]
+Then we vertify that natural cubic splines have the minimal total bending energy.
+
+
+
+\section*{V. B-spline}
+\subsection*{V.a}
+By the defination of B-spline
+\[
+B_i^{n+1}(x) = \frac{x-t_{i-1}}{t_{i+n}-t_{i-1}}B_i^n(x) +\frac{t_{i+n+1}-x}{t_{i+n+1}-t_i}B_{i+1}^n(x)
+\]
+\[
+B_i^0(x) = \begin{cases}
+1, x\in (t_{i-1},t_i] \\
+0 \qquad otherwise
+\end{cases}
+\]
+By the defination of hat function
+\[
+\hat{B}_i(x) = 
+\begin{cases}
+\frac{x-t_{i-1}}{t_i-t_{i-1}}, x\in (t_{i-1},t_i] \\
+\frac{t_{i+1}-x}{t_{i+1}-t_{i}},x\in (t_{i},t_{i+1}] \\
+0 \qquad otherwise
+\end{cases}
+\]
+Then we know $B_i^1(x) = \hat{B}_i(x)$. Then we get 
+\[
+B_i^2(x) = \frac{x-t_{i-1}}{t_{i+1}-t_{i-1}}B_i^1(x) +\frac{t_{i+2}-x}{t_{i+2}-t_i}B_{i+1}^1(x) =
+\begin{cases}
+\frac{(x-t_{i-1})^2}{(t_i-t_{i-1})(t_{i+1}-t_{i-1})}, x\in (t_{i-1},t_i] \\
+\frac{(x-t_{i-1})(t_{i+1}-x)}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}+\frac{(x-t_{i})(t_{i+2}-x)}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})},x\in (t_{i},t_{i+1}] \\
+\frac{(x-t_{i+2})^2}{(t_{i+2}-t_{i})(t_{i+2}-t_{i+1})},x\in (t_{i+1},t_{i+2}] \\
+0 \qquad otherwise
+\end{cases}
+\]
+\subsection*{V.b}
+Notice that 
+\[
+\frac{d}{dx}B_i^2(x) = 
+\begin{cases}
+\frac{2(x-t_{i-1})}{(t_i-t_{i-1})(t_{i+1}-t_{i-1})}, x\in (t_{i-1},t_i] \\
+\frac{(t_{i+1}-x)}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}+
+\frac{(t_{i+2}-x)}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})} - 
+\frac{(x-t_{i-1})}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}-
+\frac{(x-t_{i})}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})},x\in (t_{i},t_{i+1}] \\
+\frac{2(x-t_{i+2})}{(t_{i+2}-t_{i})(t_{i+2}-t_{i+1})},x\in (t_{i+1},t_{i+2}] \\
+0 \qquad otherwise
+\end{cases}
+\]
+We get 
+\[
+\frac{d}{dx}B_i^2(t_i^+) = \frac{1}{(t_{i+1}-t_{i-1})}+
+\frac{1}{(t_{i+1}-t_{i})} - 
+\frac{(t_i-t_{i-1})}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})} = \frac{2}{(t_{i+1}-t_{i-1})}
+\]
+\[
+\frac{d}{dx}B_i^2(t_i^-) = \frac{2}{(t_{i+1}-t_{i-1})}
+\]
+\[
+\frac{d}{dx}B_i^2(t_{i+1}^-) = 
+\frac{(t_{i+2}-t_{i+1})}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})} - 
+\frac{1}{(t_{i+1}-t_{i})}-
+\frac{1}{(t_{i+2}-t_{i})}
+= -\frac{2}{(t_{i+2}-t_{i})}
+\]
+\[
+\frac{d}{dx}B_i^2(t_{i+1}^+) = -\frac{2}{(t_{i+2}-t_{i})}
+\]
+So $\frac{d}{dx}B_i^2(x)$ is continuous at $t_i$ and $t_{i+1}$.
+\subsection*{V.c}
+Notice that 
+\[
+\frac{d^2}{dx^2}B_i^2(x) = 
+\begin{cases}
+\frac{2}{(t_i-t_{i-1})(t_{i+1}-t_{i-1})}, x\in (t_{i-1},t_i] \\
+\frac{-2}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}+
+\frac{-2}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})},x\in (t_{i},t_{i+1}] \\
+\frac{2}{(t_{i+2}-t_{i})(t_{i+2}-t_{i+1})},x\in (t_{i+1},t_{i+2}] \\
+0 \qquad otherwise
+\end{cases}
+\]
+Besides, easy to find that $\frac{d}{dx}B_i^2(x) > 0, x\in (t_{i-1},t_i]$ and $\frac{d^2}{dx^2}B_i^2(x) < 0,x\in (t_{i},t_{i+1}]$, so suffices to show $\exists !x^* \in (t_{i},t_{i+1})$,
+ satisfied  $\frac{d}{dx}B_i^2(x) = 0$ By (b), we get $\frac{d}{dx}B_i^2(t_i^+) > 0 $ and $\frac{d}{dx}B_i^2(t_{i+1}^-) < 0$
+, so by intermediate value theorem of monotonic function, we know $\exists !x^* \in (t_{i},t_{i+1})$, s.t. 
+$\frac{d}{dx}B_i^2(x) = 0$.
+\[
+\frac{(t_{i+1}-x)}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}+
+\frac{(t_{i+2}-x)}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})} - 
+\frac{(x-t_{i-1})}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}-
+\frac{(x-t_{i})}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})} = 0 
+\]
+$\iff$
+\[
+\frac{(t_{i+1} +t_{i-1}-2x)}{(t_{i+1}-t_{i-1})}+
+\frac{(t_{i+2}+t_i-2x)}{(t_{i+2}-t_{i})} = 0 
+\]
+$\iff$
+\[
+(t_{i+2}-t_{i})(t_{i+1} +t_{i-1}-2x)+
+(t_{i+1}-t_{i-1})(t_{i+2}+t_i-2x) = 0 
+\]
+$\iff$
+\[
+(t_{i+2}-t_{i})(t_{i+1} +t_{i-1})+
+(t_{i+1}-t_{i-1})(t_{i+2}+t_i) = 2x(t_{i+2}+t_{i+1}-t_{i-1}-t_{i}) 
+\]
+$\Rightarrow$
+\[
+x^* = \frac{t_{i+2}t_{i+1}-t_{i-1}t_{i}}{t_{i+2}+t_{i+1}-t_{i-1}-t_{i} }
+\]
+\subsection*{V.d}
+\[
+B_i^2(x) = 
+\begin{cases}
+0 \leqslant \frac{(x-t_{i-1})^2}{(t_i-t_{i-1})(t_{i+1}-t_{i-1})} < \frac{t_{i}-t_{i-1}}{t_{i+1}-t_{i-1}}<1, x\in (t_{i-1},t_i] \\
+\frac{(x-t_{i-1})(t_{i+1}-x)}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}+\frac{(x-t_{i})(t_{i+2}-x)}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})},x\in (t_{i},t_{i+1}] \\
+0 \leqslant \frac{(x-t_{i+2})^2}{(t_{i+2}-t_{i})(t_{i+2}-t_{i+1})} < \frac{t_{i+2}-t_{i+1}}{t_{i+2}-t_{i}} < 1,x\in (t_{i+1},t_{i+2}] \\
+0 \qquad otherwise
+\end{cases}
+\]
+suffices to show
+\[
+\frac{(x-t_{i-1})(t_{i+1}-x)}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}+\frac{(x-t_{i})(t_{i+2}-x)}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})}\in [0,1),x\in (t_{i},t_{i+1}] \\
+\]
+By (c) we know $B_i^2(x),x\in(t_i,x^*)$ monotonically increasing, $B_i^2(x),x\in(x^*,t_{i+1})$ monotonically decreasing. 
+\[
+0 \leqslant B_i^2(t_i) = \frac{t_{i}-t_{i-1}}{t_{i+1}-t_{i-1}}<1
+\] 
+\[
+0 \leqslant B_i^2(t_i) =  \frac{t_{i+2}-t_{i+1}}{t_{i+2}-t_{i}} < 1
+\] 
+So suffices to show
+$B_i^2(x^*) < 1$ i.e.
+\[
+\frac{(x^*-t_{i-1})(t_{i+1}-x^*)}{(t_{i+1}-t_{i-1})(t_{i+1}-t_{i})}+\frac{(x^*-t_{i})(t_{i+2}-x^*)}{(t_{i+2}-t_{i})(t_{i+1}-t_{i})}
+\]
+We know
+
+\[
+x^* = \frac{t_{i+2}t_{i+1}-t_{i-1}t_i}{t_{i+2}+t_{i+1}-t_{i-1}-t_i}.
+\]
+Set
+\[
+D := t_{i+2}+t_{i+1}-t_{i-1}-t_i.
+\]
+\[
+x^* - t_{i-1} =
+ \frac{t_{i+2}t_{i+1}-t_{i-1}t_i}{D} - t_{i-1} =
+ \frac{t_{i+2}t_{i+1}-t_{i-1}t_i - t_{i-1}D}{D} = 
+\frac{(t_{i+1}-t_{i-1})(t_{i+2}-t_{i-1})}{D},
+\]
+\[
+t_{i+1} - x^*
+= t_{i+1} - \frac{t_{i+2}t_{i+1}-t_{i-1}t_i}{D} 
+= \frac{t_{i+1}D - (t_{i+2}t_{i+1}-t_{i-1}t_i)}{D} 
+= \frac{(t_{i+1}-t_{i-1})(t_{i+1}-t_i)}{D},
+\]
+\[
+x^* - t_i
+= \frac{t_{i+2}t_{i+1}-t_{i-1}t_i}{D} - t_i 
+= \frac{t_{i+2}t_{i+1}-t_{i-1}t_i - t_iD}{D} 
+= \frac{(t_{i+1}-t_i)(t_{i+2}-t_i)}{D}
+\]
+\[
+t_{i+2} - x^*
+= t_{i+2} - \frac{t_{i+2}t_{i+1}-t_{i-1}t_i}{D} 
+= \frac{t_{i+2}D - (t_{i+2}t_{i+1}-t_{i-1}t_i)}{D} 
+= \frac{(t_{i+2}-t_{i-1})(t_{i+2}-t_i)}{D}.
+\]
+Then
+\[
+B_i^2(x^*)
+= \frac{\displaystyle
+\frac{(t_{i+1}-t_{i-1})(t_{i+2}-t_{i-1})}{D}
+\cdot
+\frac{(t_{i+1}-t_{i-1})(t_{i+1}-t_i)}{D}}
+{(t_{i+1}-t_{i-1})(t_{i+1}-t_i)} \\
+\quad
++ \frac{\displaystyle
+\frac{(t_{i+1}-t_i)(t_{i+2}-t_i)}{D}
+\cdot
+\frac{(t_{i+2}-t_{i-1})(t_{i+2}-t_i)}{D}}
+{(t_{i+2}-t_i)(t_{i+1}-t_i)} \\
+\]
+\[
+= \frac{(t_{i+1}-t_{i-1})(t_{i+2}-t_{i-1})}{D^2}
++ \frac{(t_{i+2}-t_{i-1})(t_{i+2}-t_i)}{D^2} \\
+\]
+\[
+= \frac{t_{i+2}-t_{i-1}}{D^2}
+\Big[(t_{i+1}-t_{i-1}) + (t_{i+2}-t_i)\Big] \\
+= \frac{t_{i+2}-t_{i-1}}{D^2}
+\big(t_{i+1}+t_{i+2}-t_{i-1}-t_i\big) \\
+= \frac{t_{i+2}-t_{i-1}}{D}.
+\]
+So $B_i^2(x^*) = \frac{t_{i+2}-t_{i-1}}{t_{i+2}+t_{i+1}-t_{i-1}-t_i} < 1.$
+\subsection*{V.e}
+We take $i = 1$ situation as an example. In general cases, only need to replace 0 with $i-1$, 1 with $i$ and so on.\\
+\begin{tikzpicture}
+  \begin{axis}[
+    axis lines=middle,      
+    xlabel={$x$},
+    ylabel={$y$},
+    xmin=0, xmax=3,
+    ymin=0, ymax=1,
+    samples=200,         
+  ]
+    \addplot[domain=0:1]{x^2/2};
+    \addplot[domain=1:2]{-x^2+3*  x-3/2};
+    \addplot[domain=2:3]{(x-3)^2/2};
+  \end{axis}
+\end{tikzpicture}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{VI. Hermite Interpolation of given points}
+\subsection*{VI.a}
+$f[0] = 1,f[1] = 2,f[3] = 0$\\
+$f[0,1] = 1,f[1,1] = -1,f[1,3] = -1,f[3,3] = 0$\\
+$f[0,1,1] = -2,f[1,1,3] = 0,f[1,3,3] = \frac{1}{2}$\\
+$f[0,1,1,3] = \frac{2}{3},f[1,1,3,3] = \frac{1}{4}$\\
+$f[0,1,1,3,3] = -\frac{5}{36}$\\
+So,$f(2) = 1 + (2-0) -2(2-0)(2-1) + \frac{2}{3}(2-0)(2-1)^2 -\frac{5}{36}(2-0)(2-1)^2(2-3) = 1+2-4+
+\frac{4}{3}+\frac{5}{18} = \frac{11}{18}$
+\subsection*{VI.b}
+By Hermite Interpolation, we know
+\[
+f(x) - p(f;x) = f[0,1,1,3,3,x]x(x-1)^2(x-3)^2 = \frac{f^{(5)}(\xi(x))}{5!}x(x-1)^2(x-3)^2
+\]
+Considering $x(x-1)^2(x-3)^2_{\max}\approx 2.0594$
+So the error
+\[
+|f(x) - p(f;x)| \leqslant  2.06\frac{M}{5!}
+\]
+\section*{VII. Prove equation}
+We prove by induction, when $ k = 1$, $\Delta f(x) = hf[x_0,x_1]$, $\nabla f(x)= hf[x_0,x_{-1}]$.\\
+Assume that $ k= n $ has been proved, when $k = n+1$:
+\[
+\Delta^{k+1} f(x) = \Delta^{k} f(x+h) - \Delta^{k} f(x)
+= k!h^k f[x_1,x_2,\ldots,x_{k+1}]- k!h^k f[x_0,x_2,\ldots,x_k]
+\]
+then By Newton Interpolation:
+\[
+\Delta^{k+1} f(x) = (k+1)!h^{k+1}f[x_0,x_1,\ldots,x_{k+1}]
+\]
+the same way for $\nabla$
+Assume that $ k= n $ has been proved, when $k = n+1$:
+\[
+\nabla^{k+1} f(x) = \nabla^{k} f(x) - \nabla^{k} f(x-h)
+= k!h^k f[x_0,x_{-1},\ldots,x_{-k}] -k!h^k f[x_{-1},x_{-2},\ldots,x_{-k-1}]
+\]
+then By Newton Interpolation:
+\[
+\nabla^{k+1} f(x) = (k+1)!h^{k+1}f[x_{0},x_{-1},\ldots,x_{-k-1}]
+\]
+
+\section*{VIII. Prove equation}
+By defination of $\frac{\partial f}{\partial x_0}$ ,we know
+\[
+\frac{\partial f[x_0,x_1,\ldots,x_n]}{\partial x_0} =\lim_{\Delta x \rightarrow 0} \frac{f[x_0+\Delta x,x_1,\ldots,x_n]-f[x_0,x_1,\ldots,x_n]}{\Delta x}
+= \lim_{\Delta x \rightarrow 0} f[x_0+\Delta x,x_0,x_1,\ldots,x_n]
+\]
+And f is differentiable at $x_0$, so f is continuous at $x_0$, so with finite steps, the error simulate in progress will control by 
+a const c and $\varepsilon$ by the continuous at $x_0$.i.e.
+\[ 
+|f[x_0+\Delta x] - f[x_0]| < \varepsilon,|f[x_0+\Delta x,x_0] - f[x_0,x_0]|< \varepsilon
+\]
+we can prove by induction,every interpolation has only a $c\varepsilon$ difference, in which c is a constant
+$\Rightarrow$
+\[\lim_{\Delta x \rightarrow 0} f[x_0+\Delta x,x_0,x_1,\ldots,x_n] = f[x_0,x_0,x_1,\ldots,x_n]
+\]
+
+\section*{IX. Min-Max problem}
+i.e. to solve:
+\[
+\min_{a_i \in \mathbb{R},i \in {1,2,\cdots n}} \max_{x \in [a,b]}|a_0 x^n
++a_1 x^{n-1} + \cdots + a_n|
+\]
+\end{document}

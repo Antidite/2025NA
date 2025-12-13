@@ -1,0 +1,591 @@
+\documentclass[a4paper]{article}
+\usepackage[affil-it]{authblk}
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+\addbibresource{citation.bib}
+
+\begin{document}
+% =================================================
+\title{Numerical Analysis homework V}
+
+\author{LI YIJIAN 3230102477
+  \thanks{Electronic address: \texttt{3230102477@zju.edu.cn}}}
+\affil{(Mathematics and Applied Mathematics 2302), Zhejiang University }
+
+
+\date{Due time: \today}
+\maketitle
+
+
+
+
+
+% ============================================
+\section*{I. Detailed proof of Thm}
+We first check that the operations that
+\(\mathcal{C}[a,b]\) is closed under them.
+
+\medskip\noindent
+\textbf{Closure under addition.}
+Let \(f,g\in \mathcal{C} [a,b]\).  
+For each \(x\in[a,b]\) we define
+\((f+g)(x):=f(x)+g(x)\).
+Since \(f\) and \(g\) are continuous and the sum of continuous
+functions is continuous, the function \(f+g\) is continuous on \([a,b]\).
+Hence \(f+g\in C[a,b]\).
+
+\medskip\noindent
+\textbf{Closure under scalar multiplication.}
+Let \(f\in \mathcal{C}[a,b]\) and \(\alpha\in\mathbb{C}\).
+For each \(x\in[a,b]\) define
+\((\alpha f)(x):=\alpha f(x)\).
+The map \(x\mapsto f(x)\) is continuous, and multiplication by the
+constant \(\alpha\) is a continuous operation, so the product
+\(\alpha f\) is continuous on \([a,b]\).
+Thus \(\alpha f\in \mathcal{C}[a,b]\).
+
+\medskip
+Now we verify the vector space axioms.
+All equalities below are understood pointwise on \([a,b]\).
+
+\begin{itemize}
+  \item \emph{Associativity of addition:}
+        For any \(f,g,h\in \mathcal{C}[a,b]\),
+        \[
+        ((f+g)+h)(x)
+        = (f(x)+g(x))+h(x)
+        = f(x)+(g(x)+h(x))
+        = (f+(g+h))(x).
+        \]
+  \item \emph{Commutativity of addition:}
+        For any \(f,g\in \mathcal{C}[a,b]\),
+        \[
+        (f+g)(x)=f(x)+g(x)=g(x)+f(x)=(g+f)(x).
+        \]
+  \item \emph{Additive identity:}
+        Let \(0\) denote the zero function
+        \(0(x)\equiv 0\).
+        It is continuous and
+        \((f+0)(x)=f(x)+0=f(x)\) for all \(x\), so \(f+0=f\).
+  \item \emph{Additive inverse:}
+        For \(f\in \mathcal{C}[a,b]\), define \(-f\) by
+        \((-f)(x):=-f(x)\). Then \(-f\) is continuous and
+        \((f+(-f))(x)=f(x)-f(x)=0\), so \(f+(-f)=0\).
+  \item \emph{Compatibility of scalar multiplication:}
+        For \(\alpha,\beta\in\mathbb{C}\) and \(f\in C[a,b]\),
+        \[
+        ((\alpha\beta)f)(x)
+        =(\alpha\beta)f(x)
+        =\alpha(\beta f(x))
+        =(\alpha(\beta f))(x).
+        \]
+  \item \emph{Identity scalar:}
+        For \(f\in \mathcal{C}[a,b]\),
+        \[
+        (1\cdot f)(x)=1\cdot f(x)=f(x),
+        \]
+        hence \(1\cdot f=f\).
+  \item \emph{Distributivity over function addition:}
+        For \(\alpha\in\mathbb{C}\) and \(f,g\in \mathcal{C}[a,b]\),
+        \[
+        (\alpha(f+g))(x)
+          =\alpha(f(x)+g(x))
+          =\alpha f(x)+\alpha g(x)
+          =(\alpha f+\alpha g)(x).
+        \]
+  \item \emph{Distributivity over scalar addition:}
+        For \(\alpha,\beta\in\mathbb{C}\) and \(f\in \mathcal{C}[a,b]\),
+        \[
+        ((\alpha+\beta)f)(x)
+          =(\alpha+\beta)f(x)
+          =\alpha f(x)+\beta f(x)
+          =(\alpha f+\beta f)(x).
+        \]
+\end{itemize}
+
+All vector space axioms over \(\mathbb{C}\) are therefore satisfied,
+so \(\mathcal{C}   [a,b]\) is a complex vector space.
+We first check that \(\langle\cdot,\cdot\rangle\) satisfies the axioms of
+an inner product on a complex vector space.
+
+\medskip\noindent
+\textbf{(1) Conjugate symmetry.}
+For any \(u,v \in \mathcal{C}[a,b]\) we have
+\[
+\overline{\langle v,u\rangle}
+  = \overline{\int_a^b \rho(t)\,v(t)\,\overline{u(t)}\,\mathrm{d}t}
+  = \int_a^b \rho(t)\,\overline{v(t)}\,u(t)\,\mathrm{d}t
+  = \int_a^b \rho(t)\,u(t)\,\overline{v(t)}\,\mathrm{d}t
+  = \langle u,v\rangle .
+\]
+
+\medskip\noindent
+\textbf{(2) Linearity in the first slot.}
+Let \(u_1,u_2,v \in \mathcal{C}[a,b]\) and \(\alpha,\beta\in\mathbb C\).
+Using linearity of the (Lebesgue or Riemann) integral, we obtain
+\[
+\begin{aligned}
+\langle \alpha u_1+\beta u_2, v\rangle
+ &= \int_a^b \rho(t)\bigl(\alpha u_1(t)+\beta u_2(t)\bigr)\overline{v(t)}\,\mathrm{d}t \\
+ &= \alpha \int_a^b \rho(t)u_1(t)\overline{v(t)}\,\mathrm{d}t
+   + \beta  \int_a^b \rho(t)u_2(t)\overline{v(t)}\,\mathrm{d}t \\
+ &= \alpha\langle u_1,v\rangle + \beta\langle u_2,v\rangle .
+\end{aligned}
+\]
+
+\medskip\noindent
+\textbf{(3) Conjugate linearity in the second slot.}
+This follows from (1) and (2). Indeed, for
+\(u,v_1,v_2\in C[a,b]\) and \(\alpha,\beta\in\mathbb C\),
+\[
+\begin{aligned}
+\langle u,\alpha v_1+\beta v_2\rangle
+ &= \overline{\langle \alpha v_1+\beta v_2,u\rangle} \\
+ &= \overline{\alpha\langle v_1,u\rangle + \beta\langle v_2,u\rangle} \\
+ &= \overline{\alpha}\,\langle u,v_1\rangle
+  + \overline{\beta}\,\langle u,v_2\rangle .
+\end{aligned}
+\]
+
+\medskip\noindent
+\textbf{(4) Positive definiteness.}
+For any \(u\in C[a,b]\),
+\[
+\langle u,u\rangle
+ = \int_a^b \rho(t)\,|u(t)|^2\,\mathrm{d}t .
+\]
+Since \(\rho(t)>0\) and \(|u(t)|^2\ge 0\) for all \(t\), the integrand is
+non–negative, hence \(\langle u,u\rangle \ge 0\).
+
+If \(\langle u,u\rangle = 0\), then
+\(\int_a^b \rho(t)\,|u(t)|^2\,\mathrm{d}t = 0\).
+Because the integrand is continuous and non–negative and \(\rho(t)>0\),
+this can happen only if
+\(\rho(t)\,|u(t)|^2=0\) for all \(t\in[a,b]\).
+Thus \(|u(t)|^2=0\) for all \(t\), so \(u(t)=0\) for all \(t\in[a,b]\),
+that is, \(u\equiv 0\).
+Conversely, if \(u\equiv 0\), then clearly \(\langle u,u\rangle=0\).
+Hence \(\langle u,u\rangle=0\) if and only if \(u=0\).
+
+Combining (1)–(4), we see that \(\langle\cdot,\cdot\rangle\) is indeed an
+inner product on \(C[a,b]\).
+
+\medskip
+Now define
+\[
+\|u\|_2 := \sqrt{\langle u,u\rangle}
+          = \Bigl( \int_a^b \rho(t)\,|u(t)|^2\,\mathrm{d}t \Bigr)^{1/2}.
+\]
+On any inner–product space the function
+\(\|u\|:=\sqrt{\langle u,u\rangle}\) satisfies the three norm axioms:
+\(\|u\|\ge 0\) and \(\|u\|=0\) iff \(u=0\),
+\(\|\alpha u\| = |\alpha|\|u\|\), and the triangle inequality
+\(\|u+v\|\le\|u\|+\|v\|\), the last one following from the
+Cauchy–Schwarz inequality.
+Therefore \(\|\cdot\|_2\) is a norm on \(\mathcal{C}[a,b]\).
+
+Hence \(\mathcal{C}[a,b]\) equipped with \(\langle\cdot,\cdot\rangle\) is an
+inner–product space over \(\mathbb C\), and the corresponding norm
+\(\|\cdot\|_2\) makes \(\mathcal{C}[a,b]\) into a normed vector space.
+
+
+
+
+
+
+\section*{II. Chebyshev polynomials of the first kind}
+\subsection*{(a)}
+It suffices to show that for $m\neq n$ with $m,n\in\mathbb{N}$,
+\[
+\int_{-1}^{1}\frac{T_m(x)T_n(x)}{\sqrt{1-x^2}}\,dx=0.
+\]
+Using $T_k(x)=\cos(k\arccos x)$, we have
+\[
+\int_{-1}^{1}\frac{T_m(x)T_n(x)}{\sqrt{1-x^2}}\,dx
+=\int_{-1}^{1}\frac{\cos(m\arccos x)\cos(n\arccos x)}{\sqrt{1-x^2}}\,dx.
+\]
+Let $t=\arccos x$, so that $x=\cos t$ and $dx=-\sin t\,dt$. Since
+$\sqrt{1-x^2}=\sqrt{1-\cos^2 t}=\sin t$ for $t\in[0,\pi]$, we obtain
+\[
+\int_{-1}^{1}\frac{\cos(m\arccos x)\cos(n\arccos x)}{\sqrt{1-x^2}}\,dx
+=\int_{\pi}^{0}\frac{\cos(mt)\cos(nt)}{\sin t}(-\sin t)\,dt
+=\int_{0}^{\pi}\cos(mt)\cos(nt)\,dt.
+\]
+Now use the identity $\cos a\cos b=\frac12\bigl(\cos(a+b)+\cos(a-b)\bigr)$:
+\[
+\int_{0}^{\pi}\cos(mt)\cos(nt)\,dt
+=\frac12\int_{0}^{\pi}\bigl(\cos((m+n)t)+\cos((m-n)t)\bigr)\,dt.
+\]
+If $m\neq n$, then $m+n\neq 0$ and $m-n\neq 0$, hence
+\[
+\int_{0}^{\pi}\cos(kt)\,dt=\left[\frac{\sin(kt)}{k}\right]_{0}^{\pi}=0
+\quad (k\in\mathbb{Z}\setminus\{0\}),
+\]
+so the integral is $0$, as desired.
+\subsection*{(b)}
+The first three Chebyshev polynomials of the first are
+\[
+T_0(x)=1,\qquad T_1(x)=x,\qquad T_2(x)=2x^2-1.
+\]
+Using the result in (a)
+\[
+\langle T_0,T_0\rangle=\pi,\qquad \langle T_n,T_n\rangle=\frac{\pi}{2}\ \ (n\ge 1),
+\]
+we get
+\[
+\|T_0\|=\sqrt{\pi},\qquad \|T_1\|=\sqrt{\frac{\pi}{2}},\qquad \|T_2\|=\sqrt{\frac{\pi}{2}}.
+\]
+Hence an orthonormal system is
+\[
+\phi_0(x)=\frac{T_0(x)}{\|T_0\|}=\frac{1}{\sqrt{\pi}},\qquad
+\phi_1(x)=\frac{T_1(x)}{\|T_1\|}=\sqrt{\frac{2}{\pi}}\,x,\qquad
+\phi_2(x)=\frac{T_2(x)}{\|T_2\|}=\sqrt{\frac{2}{\pi}}\,(2x^2-1).
+\]
+Then $\langle \phi_i,\phi_j\rangle=\delta_{ij}$ for $i,j\in\{0,1,2\}$ Then is an orthonormal system.
+
+\subsection*{III. Least-squares approximation of $y(x)=\sqrt{1-x^2}$ on $[-1,1]$}
+
+We use the inner product from Theorem 5.7 with
+\[
+\langle f,g\rangle=\int_{-1}^{1} f(x)g(x)\rho(x)dx,
+\qquad 
+\rho(x)=\frac{1}{\sqrt{1-x^2}}.
+\]
+Let $f(x)=\sqrt{1-x^2}$. So \(\langle f,g\rangle=\int_{-1}^{1} g(x)dx\)
+
+\subsection*{(a) Fourier expansion}
+
+By result in II(b) $T_n(\cos t)=\cos(nt)$. \[
+\phi_0(x)=\frac{T_0(x)}{\|T_0\|}=\frac{1}{\sqrt{\pi}},\qquad
+\phi_1(x)=\frac{T_1(x)}{\|T_1\|}=\sqrt{\frac{2}{\pi}}\,x,\qquad
+\phi_2(x)=\frac{T_2(x)}{\|T_2\|}=\sqrt{\frac{2}{\pi}}\,(2x^2-1).
+\]
+Compute the coefficients:
+\[
+a_0=\langle f,\phi_0\rangle
+=\int_{-1}^{1}\phi_0(x)\,dx
+=\int_{-1}^{1}\frac{1}{\sqrt{\pi}}\,dx
+=\frac{2}{\sqrt{\pi}},
+\]
+\[
+a_1=\langle f,\phi_1\rangle
+=\int_{-1}^{1}\phi_1(x)\,dx
+=\int_{-1}^{1}\sqrt{\frac{2}{\pi}}\,x\,dx
+=0,
+\]
+\[
+a_2=\langle f,\phi_2\rangle
+=\int_{-1}^{1}\phi_2(x)\,dx
+=\int_{-1}^{1}\sqrt{\frac{2}{\pi}}(2x^2-1)\,dx
+=\sqrt{\frac{2}{\pi}}\left(2\cdot\frac{2}{3}-2\right)
+=-\frac{2}{3}\sqrt{\frac{2}{\pi}}.
+\]
+Thus
+\[
+p_2(x)=\frac{2}{\sqrt{\pi}}\cdot\frac{1}{\sqrt{\pi}}
++\left(-\frac{2}{3}\sqrt{\frac{2}{\pi}}\right)\cdot\sqrt{\frac{2}{\pi}}\,(2x^2-1)
+=\frac{2}{\pi}-\frac{4}{3\pi}(2x^2-1)
+=\frac{10}{3\pi}-\frac{8}{3\pi}x^2.
+\]
+
+\subsection*{(b) normal equations}
+
+Let $p_2(x)=c_0+c_1x+c_2x^2$. Then we know
+\[
+\langle f-p_2,\,1\rangle=0,\qquad
+\langle f-p_2,\,x\rangle=0,\qquad
+\langle f-p_2,\,x^2\rangle=0,
+\]
+
+Since $f(x)$ and $\rho(x)=\dfrac{1}{\sqrt{1-x^2}}$ are even, while $x$ is odd,
+we have $\langle f,x\rangle=0$, $\langle 1,x\rangle=0$, and $\langle x^2,x\rangle=0$.
+Thus $\langle f-p_2,x\rangle=0$ forces $c_1=0$.
+
+Now compute the needed inner products directly:
+\[
+\langle f,1\rangle=
+=\int_{-1}^{1}1\,dx=2,
+\]
+\[
+\langle 1,1\rangle=\int_{-1}^{1}\frac{1}{\sqrt{1-x^2}}\,dx=\pi,
+\qquad
+\langle x^2,1\rangle=\int_{-1}^{1}\frac{x^2}{\sqrt{1-x^2}}\,dx=\frac{\pi}{2}.
+\]
+Hence $\langle f-p_2,1\rangle=0$ becomes
+\[
+2-c_0\pi-c_2\frac{\pi}{2}=0.
+\]
+Then
+\[
+\langle f,x^2\rangle
+=\int_{-1}^{1}x^2\,dx=\frac{2}{3},
+\]
+\[
+\langle 1,x^2\rangle=\int_{-1}^{1}\frac{x^2}{\sqrt{1-x^2}}\,dx=\frac{\pi}{2},
+\qquad
+\langle x^2,x^2\rangle=\int_{-1}^{1}\frac{x^4}{\sqrt{1-x^2}}\,dx=\frac{3\pi}{8}.
+\]
+Therefore $\langle f-p_2,x^2\rangle=0$ becomes
+\[
+\frac{2}{3}-c_0\frac{\pi}{2}-c_2\frac{3\pi}{8}=0.
+\]
+Solving the eqaution
+\[
+c_2=-\frac{8}{3\pi},\qquad c_0=\frac{10}{3\pi},\qquad c_1=0,
+\]
+hence
+\[
+p_2(x)=\frac{10}{3\pi}-\frac{8}{3\pi}x^2,
+\]
+
+
+
+
+
+
+
+
+
+
+\section*{IV. DLS via orthonormal polynomials}
+\paragraph{data.}
+We have $N=12$, $\rho(x)\equiv 1$, and the sales record (Example 5.55) is
+\[
+(x_i,y_i)=
+(1,256),(2,201),(3,159),(4,61),(5,77),(6,40),(7,17),(8,25),(9,103),(10,156),(11,222),(12,345).
+\]
+Discrete inner product
+\[
+\langle u,v\rangle=\sum_{i=1}^{12} u(x_i)v(x_i).
+\]
+
+\subsection*{(a)}
+Then independent list $(1,x,x^2)$.
+Let $p_0(x)=1$. Then
+\[
+\langle p_0,p_0\rangle=\sum_{i=1}^{12}1=12,
+\qquad
+\phi_0(x)=\frac{p_0(x)}{\|p_0\|}=\frac{1}{\sqrt{12}}.
+\]
+Let $v_1(x)=x$. Remove its projection onto $\phi_0$:
+\[
+\langle v_1,\phi_0\rangle=\sum_{i=1}^{12} x_i\cdot \frac{1}{\sqrt{12}}
+=\frac{1}{\sqrt{12}}\sum_{i=1}^{12} i
+=\frac{78}{\sqrt{12}}.
+\]
+Hence
+\[
+p_1(x)=v_1(x)-\langle v_1,\phi_0\rangle \phi_0(x)
+=x-\frac{78}{12}=x-\frac{13}{2}.
+\]
+Moreover,
+\[
+\langle p_1,p_1\rangle=\sum_{i=1}^{12}\Bigl(i-\frac{13}{2}\Bigr)^2=143,
+\qquad
+\phi_1(x)=\frac{p_1(x)}{\|p_1\|}=\frac{x-\frac{13}{2}}{\sqrt{143}}.
+\]
+Let $v_2(x)=x^2$. Remove its projections onto $\phi_0,\phi_1$ and set
+\[
+p_2(x)=v_2(x)-\langle v_2,\phi_0\rangle\phi_0(x)-\langle v_2,\phi_1\rangle\phi_1(x).
+\]
+By computation:
+\[
+p_2(x)=x^2-13x+\frac{91}{3}.
+\]
+Furthermore,
+\[
+\langle p_2,p_2\rangle=\sum_{i=1}^{12}\Bigl(i^2-13i+\frac{91}{3}\Bigr)^2=\frac{4004}{3}.
+\]
+So
+\[
+\phi_2(x)
+=\frac{3x^2-39x+91}{\sqrt{12012}},
+\]
+\noindent Therefore an orthonormal system is
+\[
+\boxed{
+\phi_0(x)=\frac1{\sqrt{12}},\qquad
+\phi_1(x)=\frac{x-\frac{13}{2}}{\sqrt{143}},\qquad
+\phi_2(x)=\frac{3x^2-39x+91}{\sqrt{12012}}.
+}
+\]
+
+\subsection*{(b) Best quadratic least--squares approximation}
+We seek $\hat\varphi(x)=a_0+a_1x+a_2x^2$ minimizing
+\[
+\sum_{i=1}^{12}\bigl(y_i-\hat\varphi(x_i)\bigr)^2
+=\|y-\hat\varphi\|^2
+\]
+with respect to the discrete inner product.
+By (a) use the orthonormal basis.Assume
+\[
+\hat\varphi(x)=c_0\phi_0(x)+c_1\phi_1(x)+c_2\phi_2(x),
+\qquad
+c_k=\langle y,\phi_k\rangle,k = 0,1,2
+\]
+Then
+\[
+c_0=\sum_{i=1}^{12} y_i\cdot \frac1{\sqrt{12}}
+=\frac{\sum_{i=1}^{12}y_i}{\sqrt{12}}
+=\frac{1662}{\sqrt{12}},
+\]
+\[
+c_1=\sum_{i=1}^{12} y_i\cdot \frac{x_i-\frac{13}{2}}{\sqrt{143}}
+=\frac{\sum_{i=1}^{12} y_i\left(x_i-\frac{13}{2}\right)}{\sqrt{143}}
+=\frac{589}{\sqrt{143}},
+\]
+\[
+c_2=\sum_{i=1}^{12} y_i\cdot \frac{3x_i^2-39x_i+91}{\sqrt{12012}}
+=\frac{\sum_{i=1}^{12} y_i\,(3x_i^2-39x_i+91)}{\sqrt{12012}}
+=\frac{36204}{\sqrt{12012}}.
+\]
+Then we get
+\[
+\boxed{
+\hat\varphi(x)=386-\frac{16220}{143}\,x+\frac{1293}{143}\,x^2
+}
+\]
+(i.e. $\hat\varphi(x)\approx 386-113.4265734\,x+9.041958042\,x^2$).
+which result is same as the result in the notes. \\
+More exactlly, we can solve the equation in the notes:
+\[
+Ga = c
+\]
+\[
+G=
+\begin{pmatrix}
+12&78&650\\
+78&650&6084\\
+650&6084&60710
+\end{pmatrix},
+\qquad
+c=
+\begin{pmatrix}
+1662\\
+11392\\
+109750
+\end{pmatrix},
+\]
+whose solution is exactly
+\[
+a_0=386,\qquad a_1=-\frac{16220}{143},\qquad a_2=\frac{1293}{143},
+\]
+agreeing with the result above.
+
+\subsection*{(c)}
+If another sales record has the same nodes $x_i$ and $N$ 
+but different values $y_i$. We suppose the same weight $\rho(x)\equiv 1$ holds.
+Otherwise both of the methods will compute from strart.
+then:
+\begin{itemize}
+\item The orthonormal polynomials $\phi_0,\phi_1,\phi_2$ from (a) can be reused,
+since they depend only on $\{x_i\}$ and $\rho$.
+\item Only the coefficients $c_k=\langle y,\phi_k\rangle=\sum_{i=1}^{12}y_i\phi_k(x_i)$
+need to be recomputed.
+\end{itemize}
+
+This illustrates an advantage of orthonormal polynomials over normal equations:
+the orthogonalization basis can be done once, and the new polynomial for new $y$
+reduce to computing a few inner products, but normal eqaution still need to solve a linear
+eqaution, which will give orthonormal method better numerical stability.
+
+
+
+\section*{V. Prove Theorem and lemma}
+\subsection*{Theorem 5.66}
+\subsubsection*{(1)}
+\[
+AA^{+}A = A
+\]
+By the defination of $A^{+}$
+\[
+\forall y \in \mathbb{F}^m, A^{+}y = \sum_{j = 1}^{r}\frac{1}{\sigma_j}\langle y,v_j\rangle u_j
+\]
+Choose $y$ as every column of $A$, Then we know
+\[
+A x = y = Ae_j
+\]
+where $e_j$ is the natural o.n.b in $\mathbb{F}^m$,so $\forall z \in \ker(A^*)$
+\[
+\langle y,z\rangle = \langle e_j,A^*z\rangle = 0
+\]
+So \(A x = y\) have solution, which is $\sum_{j = 1}^{r}\frac{1}{\sigma_j}\langle y,v_j\rangle u_j = A^{+}y$. 
+So \(AA^{+}y = y\) for every column of $A$.
+\\
+Then combine every column of $A$ together 
+\[
+AA^{+}A = A
+\]
+\subsubsection*{(2)}
+\[
+A^{+}AA^{+} = A^{+}
+\]
+By defination we know 
+\[
+\forall y \in \mathbb{F}^m,A^{+}AA^{+}y = A^{+}A\sum_{j = 1}^{r}\frac{1}{\sigma_j}\langle y,v_j\rangle u_j = 
+A^{+}\sum_{j = 1}^{r}\frac{1}{\sigma_j}\langle y,v_j\rangle Au_j = A^{+}\sum_{j = 1}^{r}\langle y,v_j\rangle v_j 
+\]
+=
+\[
+\sum_{j = 1}^{r}\langle y,v_j\rangle \sum_{k = 1}^{r}\frac{1}{\sigma_k}\langle v_j,v_k\rangle u_k =
+\sum_{j = 1}^{r}\langle y,v_j\rangle \frac{1}{\sigma_j} u_j = A^{+}y
+\]
+Choose $y = e_j ,j = 1,2,...,m$ one by one. Then we know\(A^{+}AA^{+} = A^{+}\)
+\subsubsection*{(3)}
+\[
+(A^+A)^* = A^+ A \quad (AA^+)^* = AA^+
+\]
+\[
+\forall y,z \in \mathbb{F}^m,  AA^+y = \sum_{j = 1}^{r}\langle y,v_j\rangle v_j \Rightarrow
+\langle  AA^+y,z\rangle =  
+\sum_{j = 1}^{r}\langle y,v_j\rangle \langle  v_j,z\rangle = 
+\langle  y,AA^+z\rangle = \langle  y,(AA^+)^*z\rangle 
+\]
+Therefore for $y,z$ are arbitrary, so $(AA^+)^* = AA^+$.
+\[
+\forall y,z \in \mathbb{F}^m,  A^+Ay = \sum_{j = 1}^{r}\frac{1}{\sigma_j}\langle Ay,v_j\rangle u_j
+= \sum_{j = 1}^{r}\frac{1}{\sigma_j}\langle y,A^*v_j\rangle u_j
+= \sum_{j = 1}^{r}\langle y,u_j\rangle u_j
+\]
+$\Rightarrow$
+\[
+\langle  A^+Ay,z\rangle = \sum_{j = 1}^{r}\langle y,u_j\rangle \langle u_j,z\rangle
+= \langle y,A^+Az\rangle
+\]
+Therefore for $y,z$ are arbitrary, so $(A^+A)^* = A^+ A$.
+\subsection*{Lemma 5.67}
+Assume $A \in \mathbb{F}^{m\times n}$,When $A$ has linearly independent columns, we know:
+\[
+r(A) = n, \& n \leqslant m \Rightarrow r(A^*) = r(A) = n
+\]
+Given
+\[
+A^*Ax = 0 \Rightarrow x^*A^*Ax = 0\Rightarrow Ax = 0
+\]
+Then we can part $B$ from $A$, s.t. $\exists B \in \mathbb{F}^{n\times n}$ and $|B| \neq 0$, so
+\[
+Bx = 0 \Rightarrow x = 0
+\]
+Therefore $\ker (A^*A) = \{0\}$, then it's invertible.
+By Thm before 
+\[
+(AA^+)^*A = (A^{+})^{*}A^{*}A = AA^+A = A \Rightarrow A^{+} = (A(A^*A)^{-1})^{*}
+= (A^*A)^{-1}A^{*}
+\]
+Then for case $A$ has the linearly independent rows. Take $B = A^*$, then $B$ has linearly independent columns.
+So $B^*B$ is invertible, therefore $AA^*$ is invertible.Then
+\[
+A(A^+A)^* = AA^* (A^{+})^{*}= AA^+A = A \Rightarrow A^{+} = ((A^*A)^{-1}A)^{*}
+= A^{*}(A^*A)^{-1}
+\] 
+Which completes the proof.
+\end{document}

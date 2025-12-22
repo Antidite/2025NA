@@ -1,0 +1,562 @@
+\documentclass[a4paper]{article}
+\usepackage[affil-it]{authblk}
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{extarrows}
+\usepackage{mathtools}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+\addbibresource{citation.bib}
+
+\begin{document}
+% =================================================
+\title{Numerical Analysis homework VI}
+
+\author{LI YIJIAN 3230102477
+  \thanks{Electronic address: \texttt{3230102477@zju.edu.cn}}}
+\affil{(Mathematics and Applied Mathematics 2302), Zhejiang University }
+
+
+\date{Due time: \today}
+\maketitle
+
+
+
+
+
+% ============================================
+\section*{I. Detailed proof of Thm}
+\subsection*{(a)}
+By Newton's interpolation
+\[
+\renewcommand{\arraystretch}{1.25}
+\begin{array}{c|c|c|c|c}
+x_i
+\\ \hline
+-1 & y(-1) & & &  \\
+0 & y(0) & y(0)-y(-1) & & \\
+0 & y(0) & y'(0) & y'(0)-y(0)+y(-1) & \\
+1 & y(1) & y(1)-y(0)& y(1)-y(0) -y'(0)& -y'(0) + (y(1)-y(-1))/2
+\end{array}
+\]
+Then \(p_3(t) = y(-1) + [y(0)-y(-1)](t+1)+[y'(0)-y(0)+y(1)](t+1)t-y'(0)t^2(t+1)\).
+\\
+Then Becasue the interval are symmetric about 0; So the integral of the odd function
+are zero.
+So:
+\[
+\int_{-1}^{1}p_3(t)dt = \int_{-1}^{1}y(-1) + y(0)-y(-1) + [-y(0)+\frac{y(1) + y(-1)}{2}]t^2 dt
+= \frac{1}{3}(y(-1) + 4y(0) + y(1))
+\]
+Which is the same as the result by Simpson's rule.
+\subsection*{(b)}
+By (a) we know \(y(t) - p_3(t) = \frac{y^{(4)}(\zeta(t))}{4!}t^2(t^2-1)\). 
+So:
+\[
+E^{S}(y) = \int_{-1}^{1}\frac{y^{(4)}(\zeta(t))}{4!}t^2(t^2-1) dt \xlongequal{\text{by Mean Value}}
+= \frac{y^{(4)}(\zeta(t))}{4!}\int_{-1}^{1}t^2(t^2-1) dt = -\frac{y^{(4)}(\zeta)}{90}
+\]
+\subsection*{(c)}
+Let $f\in C^{4}[a,b]$ and let $n=2m$ be an even integer. Set
+\[
+h=\frac{b-a}{n},\qquad x_j=a+jh\quad (j=0,1,\dots,n).
+\]
+Partition $[a,b]$ into $m$ panels $[x_{2k},x_{2k+2}]$ $(k=0,1,\dots,m-1)$.
+
+Fix $k$ and apply the result of parts (a)--(b) on the reference interval $[-1,1]$ by the change of variables
+\[
+x=x_{2k+1}+ht,\qquad t\in[-1,1],\qquad dx=h\,dt,
+\]
+and define $y(t)=f(x_{2k+1}+ht)$. Then
+\[
+\int_{x_{2k}}^{x_{2k+2}} f(x)\,dx
+= h\int_{-1}^{1} y(t)\,dt
+= h\left(\frac{1}{3}\big(y(-1)+4y(0)+y(1)\big) - \frac{1}{90}y^{(4)}(\xi_k)\right)
+\]
+for some $\xi_k\in(-1,1)$. Noting that $y(-1)=f(x_{2k})$, $y(0)=f(x_{2k+1})$, $y(1)=f(x_{2k+2})$, and
+\[
+y^{(4)}(t)=h^{4} f^{(4)}(x_{2k+1}+ht),
+\]
+we obtain
+\[
+\int_{x_{2k}}^{x_{2k+2}} f(x)\,dx
+=\frac{h}{3}\Big(f(x_{2k})+4f(x_{2k+1})+f(x_{2k+2})\Big)
+-\frac{h^{5}}{90} f^{(4)}(\eta_k),
+\]
+where $\eta_k=x_{2k+1}+h\xi_k\in(x_{2k},x_{2k+2})$.
+
+Summing over $k=0,1,\dots,m-1$ yields the composite Simpson's rule:
+\[
+\int_{a}^{b} f(x)\,dx
+=\frac{h}{3}\left[
+f(x_0)+4\sum_{\substack{j=1\\ j\ \mathrm{odd}}}^{n-1} f(x_j)
++2\sum_{\substack{j=2\\ j\ \mathrm{even}}}^{n-2} f(x_j)
++f(x_n)
+\right] + E_n,
+\]
+with the error term
+\[
+E_n=-\frac{h^{5}}{90}\sum_{k=0}^{m-1} f^{(4)}(\eta_k).
+\]
+Therefore,
+\[
+|E_n|\le \frac{h^{5}}{90}\,m\,\max_{x\in[a,b]}|f^{(4)}(x)|
+= \frac{b-a}{180}\,h^{4}\,\max_{x\in[a,b]}|f^{(4)}(x)|.
+\]
+Equivalently, there exists $\xi\in(a,b)$ such that
+\[
+E_n=-\frac{b-a}{180}\,h^{4} f^{(4)}(\xi).
+\]
+
+
+\section*{II. Approximate the number of the subintervals}
+
+Let \(f(x)=e^{-x^{2}}\), \(a=0\), \(b=1\), and \(h=\frac{b-a}{n}=\frac{1}{n}\).
+
+\subsection*{(a) Composite trapezoidal rule}
+
+The error bound for the composite trapezoidal rule is
+\[
+|E_n^T| = \frac{b-a}{12}\,h^{2}|f''(\xi)|
+\le \frac{b-a}{12}\,h^{2}\max_{x\in[a,b]}|f''(x)|
+\]
+Compute
+\[
+f''(x)=(4x^{2}-2)e^{-x^{2}}.
+\]
+On \([0,1]\), \(|f''(x)|\le 2\), and in fact \(|f''(0)|=2\), hence 
+\[
+|E_n^T|\le \frac{1}{12}\cdot \frac{1}{n^{2}}\cdot 2=\frac{1}{6n^{2}}.
+\]
+Imposing \(\frac{1}{6n^{2}}<5\times 10^{-7}\) gives
+\[
+n^{2}>\frac{1}{3\times 10^{-6}}
+\qquad\Rightarrow\qquad n>577.35.
+\]
+Thus
+\[
+\boxed{n=578}.
+\]
+
+\subsection*{(b) Composite Simpson's rule}
+
+For \(n\) even, the composite Simpson error bound is
+\[
+|E_S| = \frac{b-a}{180}\,h^{4}|f^{(4)}(\xi)|\le \frac{b-a}{180}\,h^{4}\max_{x\in[a,b]}|f^{(4)}(x)|
+\]
+Compute
+\[
+f^{(4)}(x)=(16x^{4}-48x^{2}+12)e^{-x^{2}}.
+\]
+On \([0,1]\), \(|f^{(4)}(x)|\le 12\), and \(|f^{(4)}(0)|=12\), hence 
+\[
+|E_S|\le \frac{1}{180}\cdot \frac{1}{n^{4}}\cdot 12=\frac{1}{15n^{4}}.
+\]
+Imposing \(\frac{1}{15n^{4}}<5\times 10^{-7}\) gives
+\[
+n^{4}>\frac{1}{7.5\times 10^{-6}}
+\qquad\Rightarrow\qquad n>19.1.
+\]
+Since 
+\[
+\boxed{n=20}.
+\]
+
+\section*{III. Gauss-Laguerre quadrature formula}
+\subsection*{(a)}
+
+\[
+\pi_2(t)=t^2+a t+b
+\]
+is orthogonal to \(\mathbb{P}_1\),suffices to impose orthogonality against the basis \(1,t\):
+\[
+\int_{0}^{\infty} \pi_2(t)e^{-t}\,dt=0,
+\qquad
+\int_{0}^{\infty} t\,\pi_2(t)e^{-t}\,dt=0.
+\]
+Using the hint \(\int_{0}^{\infty} t^m e^{-t}\,dt=m!\), we get
+\[
+\int_{0}^{\infty} (t^2+a t+b)e^{-t}\,dt = 2! + a\,1! + b\,0! = 2+a+b = 0,
+\]
+and
+\[
+\int_{0}^{\infty} t(t^2+a t+b)e^{-t}\,dt
+= \int_{0}^{\infty} (t^3+a t^2+b t)e^{-t}\,dt
+= 3! + a\,2! + b\,1! = 6+2a+b = 0.
+\]
+hence \(a=-4\), \(b=2\). Therefore
+\[
+\boxed{\;\pi_2(t)=t^2-4t+2\; }.
+\]
+
+\subsection*{(b)}
+
+The nodes are the zeros of \(\pi_2\):
+\[
+x_{1,2}=2\mp \sqrt{2}.
+\]
+The corresponding weights are
+\[
+w_1=\frac{2+\sqrt{2}}{4},\qquad w_2=\frac{2-\sqrt{2}}{4}.
+\]
+Hence the 2-point Gauss--Laguerre quadrature formula is
+\[
+\int_{0}^{\infty} e^{-t} f(t)\,dt = w_1 f(2-\sqrt{2}) + w_2 f(2+\sqrt{2})+E_2(f).
+\]
+By Hermite interpolation at \(x_1,x_1,x_2,x_2\),we know
+\[
+f(t)-H_3(t)=\frac{f^{(4)}(\xi_t)}{4!}\,(t-x_1)^2(t-x_2)^2.
+\]
+Let \(I(f)=\int_{0}^{\infty} f(t)e^{-t}\,dt\) and \(Q_2(f)=w_1 f(x_1)+w_2 f(x_2)\).
+Since \(H_3\) is a cubic polynomial and the 2-point Gauss--Laguerre rule is exact for all
+polynomials of degree \(\le 3\), we have
+\[
+\int_{0}^{\infty} H_3(t)e^{-t}\,dt=Q_2(H_3).
+\]
+But \(H_3(x_i)=f(x_i)\) for \(i=1,2\), hence
+\[
+Q_2(H_3)=w_1 H_3(x_1)+w_2 H_3(x_2)=w_1 f(x_1)+w_2 f(x_2)=Q_2(f).
+\]
+Therefore,
+\[
+E_2(f):=I(f)-Q_2(f)=\int_{0}^{\infty}\bigl(f(t)-H_3(t)\bigr)e^{-t}\,dt.
+\]
+Then by Hermite remainder:
+\[
+E_2(f)=\int_{0}^{\infty}\frac{f^{(4)}(\xi_t)}{4!}\,(t-x_1)^2(t-x_2)^2\,e^{-t}\,dt.
+\]
+Note that \((t-x_1)^2(t-x_2)^2e^{-t}\ge 0\) on \([0,\infty)\). Since \(f^{(4)}\) is continuous,
+the integral mean value theorem implies there exists \(\tau>0\) such that
+\[
+\boxed{
+E_2(f)=\frac{f^{(4)}(\tau)}{4!}\int_{0}^{\infty}(t-x_1)^2(t-x_2)^2e^{-t}\,dt = \frac{f^{(4)}(\tau)}{6}
+\qquad \tau>0.
+}
+\]
+\subsection*{(c)}
+Let \(f(t)=\dfrac{1}{1+t}\). Then
+\[
+I \approx w_1 f(t_1)+w_2 f(t_2)
+=\frac{2+\sqrt2}{4}\cdot\frac{1}{3-\sqrt2}
++\frac{2-\sqrt2}{4}\cdot\frac{1}{3+\sqrt2}
+=\frac{4}{7}\approx 0.5714285714.
+\]
+Compute
+\[
+f^{(4)}(t)=\frac{4!}{(1+t)^5}=\frac{24}{(1+t)^5},
+\]
+the remainder
+\[
+E_2(f)=\frac{1}{6}f^{(4)}(\tau)=\frac{1}{6}\cdot\frac{24}{(1+\tau)^5}
+=\boxed{\;\frac{4}{(1+\tau)^5}\;},\qquad \tau>0.
+\]
+In particular, since \(f^{(4)}(t)\le f^{(4)}(0)=24\) for \(t\ge 0\),
+\[
+0<E_2(f)\le \frac{1}{6}\cdot 24 = 4,
+\]
+
+\medskip
+\noindent\textbf{True error and identification of \(\tau\).}
+Using the given exact value \(I=0.596347361\ldots\),
+\[
+\text{true error }=I-Q_2(f)=0.596347361\ldots-\frac{4}{7}
+=0.02491878957\ldots
+\]
+Since \(E_2(f)=\dfrac{4}{(1+\tau)^5}\), we can identify \(\tau\) by
+\[
+\frac{4}{(1+\tau)^5}=I-\frac{4}{7}
+\qquad\Rightarrow\qquad
+\tau=\left(\frac{4}{\,I-\frac{4}{7}\,}\right)^{1/5}-1
+\approx 1.761255601.
+\]
+
+
+
+\section*{IV. Remainder of Gauss formulas}
+\subsection*{(a)}
+We know
+\[
+\ell_m(t)=\prod_{\substack{j=1\\ j\neq m}}^{n}\frac{t-x_j}{x_m-x_j},
+\qquad m=1,\dots,n.
+\]
+Then
+\[
+\ell_m(x_k)=\delta_{mk}.
+\]
+\[
+p(t)=\sum_{m=1}^{n}\bigl[h_m(t)f_m+q_m(t)f_m'\bigr]
+\]
+satisfies
+\[
+p(x_k)=f_k,\qquad p'(x_k)=f_k',\qquad k=1,\dots,n.
+\]
+It is sufficient to impose the cardinal conditions
+\[
+h_m(x_k)=\delta_{mk},\quad h_m'(x_k)=0,\qquad
+q_m(x_k)=0,\quad q_m'(x_k)=\delta_{mk}
+\qquad (k=1,\dots,n).
+\]
+Take
+\[
+q_m(t)=(t-x_m)\,\ell_m(t)^2.
+\]
+Then for every \(k\),
+\[
+q_m(x_k)=(x_k-x_m)\,\ell_m(x_k)^2=0,
+\]
+and for \(k\neq m\) we also have \(q_m'(x_k)=0\) because \(\ell_m(x_k)=0\).
+At \(k=m\),
+\[
+q_m'(t)=\ell_m(t)^2+(t-x_m)\cdot 2\ell_m(t)\ell_m'(t)
+\quad\Rightarrow\quad
+q_m'(x_m)=\ell_m(x_m)^2=1.
+\]
+Hence \(q_m\) satisfies the required conditions.
+
+Moreover,
+\[
+q_m(t)=(t-x_m)\ell_m(t)^2=(c_m+d_m t)\ell_m(t)^2
+\]
+with
+\[
+\boxed{c_m=-x_m,\qquad d_m=1.}
+\]
+Consider
+\[
+h_m(t)=\bigl(A_m+B_m(t-x_m)\bigr)\ell_m(t)^2.
+\]
+Then \(h_m(x_k)=0\) for \(k\neq m\), and \(h_m(x_m)=A_m\).
+To enforce \(h_m(x_m)=1\), take \(A_m=1\).
+
+Differentiate:
+\[
+h_m'(t)=B_m\ell_m(t)^2+\bigl(1+B_m(t-x_m)\bigr)\cdot 2\ell_m(t)\ell_m'(t).
+\]
+For \(k\neq m\), \(\ell_m(x_k)=0\) implies \(h_m'(x_k)=0\) automatically.
+At \(k=m\),
+\[
+h_m'(x_m)=B_m\ell_m(x_m)^2+1\cdot 2\ell_m(x_m)\ell_m'(x_m)
+= B_m+2\ell_m'(x_m).
+\]
+Imposing \(h_m'(x_m)=0\) gives
+\[
+B_m=-2\ell_m'(x_m).
+\]
+Therefore
+\[
+h_m(t)=\Bigl(1-2(t-x_m)\ell_m'(x_m)\Bigr)\ell_m(t)^2.
+\]
+
+Finally, rewriting in the requested form \(h_m(t)=(a_m+b_m t)\ell_m(t)^2\),
+\[
+1-2(t-x_m)\ell_m'(x_m)=1+2x_m\ell_m'(x_m)-2\ell_m'(x_m)\,t,
+\]
+so
+\[
+\boxed{a_m=1+2x_m\ell_m'(x_m),\qquad b_m=-2\ell_m'(x_m).}
+\]
+\[
+\boxed{
+h_m(t)=\Bigl(1-2(t-x_m)\ell_m'(x_m)\Bigr)\ell_m(t)^2,\qquad
+q_m(t)=(t-x_m)\ell_m(t)^2,
+}
+\]
+with
+\[
+\boxed{
+a_m=1+2x_m\ell_m'(x_m),\quad b_m=-2\ell_m'(x_m),\quad
+c_m=-x_m,\quad d_m=1.
+}
+\] 
+\subsection*{(b)}
+Let
+\[
+I(f):=\int_a^b f(t)\,\rho(t)\,dt
+\]
+be the weighted integral functional (with a given weight \(\rho\)).
+From (a), there exist Hermite cardinal basis functions \(h_m,q_m\) satisfying
+\[
+p(t)=\sum_{m=1}^{n}\bigl[h_m(t)f_m+q_m(t)f_m'\bigr].
+\]
+Define
+\[
+w_k:=I(h_k)=\int_a^b h_k(t)\rho(t)\,dt,\qquad
+\mu_k:=I(q_k)=\int_a^b q_k(t)\rho(t)\,dt,\qquad k=1,\dots,n.
+\]
+Then
+\[
+I(p)
+=\sum_{m=1}^{n}\Bigl[I(h_m)f_m+I(q_m)f_m'\Bigr]
+=\sum_{m=1}^{n}\bigl[w_m f_m+\mu_m f_m'\bigr].
+\]
+For any polynomial \(p\in\mathbb P_{2n-1}\), choose \(f_m=p(x_m)\) and \(f_m'=p'(x_m)\).
+Then the Hermite interpolant produced by before is exactly \(p\) itself (uniqueness of
+Hermite interpolation in \(\mathbb P_{2n-1}\)).
+Hence 
+\[
+I(p)=\sum_{k=1}^{n}\bigl[w_k p(x_k)+\mu_k p'(x_k)\bigr]=I_n(p),
+\]
+so the error functional
+\[
+E_n(p)=I(p)-I_n(p)
+\]
+satisfies
+\[
+\boxed{ \ E_n(p)=0\quad \text{for all }p\in\mathbb P_{2n-1}. \ }
+\]
+
+\[
+\boxed{
+I_n(f)=\sum_{k=1}^{n}\bigl[w_k f(x_k)+\mu_k f'(x_k)\bigr],\qquad
+w_k=\int_a^b h_k(t)\rho(t)\,dt,\ \ \mu_k=\int_a^b q_k(t)\rho(t)\,dt.
+}
+\]
+
+\subsection*{(c)}
+\[
+\mu_k = I(q_k)=\int_a^b q_k(t)\rho(t)\,dt,
+\qquad
+q_k(t)=(t-x_k)\,\ell_k(t)^2,
+\]
+where \(\ell_k\) is the Lagrange basis at the nodes \(x_1,\dots,x_n\).
+Let the node (Vandermonde) polynomial be
+\[
+\omega_n(t)=\prod_{j=1}^n (t-x_j).
+\]
+Since \(\ell_k(t)=\dfrac{\omega_n(t)}{(t-x_k)\omega_n'(x_k)}\), we can rewrite \(q_k\) as
+\[
+q_k(t)=(t-x_k)\left(\frac{\omega_n(t)}{(t-x_k)\omega_n'(x_k)}\right)^2
+=\frac{\omega_n(t)^2}{(t-x_k)\,\omega_n'(x_k)^2}.
+\]
+Hence
+\[
+\mu_k=\frac{1}{\omega_n'(x_k)^2}\int_a^b \frac{\omega_n(t)^2}{t-x_k}\,\rho(t)\,dt.
+\]
+Therefore, \(\mu_k=0\) for every \(k=1,\dots,n\) if and only if
+\[
+\int_a^b \frac{\omega_n(t)^2}{t-x_k}\,\rho(t)\,dt=\int_a^b \omega_n(t)\ell_k(t)\rho(t)\,dt= 0,
+\qquad k=1,\dots,n.
+\]
+since $\omega_n'(x_k)\neq 0$ for distinct nodes.
+Now for any $q\in\mathbb P_{n-1}$ we have the Lagrange representation
+\[
+q(t)=\sum_{k=1}^n q(x_k)\ell_k(t).
+\]
+Therefore,
+\[
+\int_a^b q(t)\omega_n(t)\rho(t)\,dt
+=\sum_{k=1}^n q(x_k)\int_a^b \omega_n(t)\ell_k(t)\rho(t)\,dt=0,
+\]
+which shows that $\omega_n\perp \mathbb P_{n-1}$ with respect to the weight $\rho$.
+Hence $\omega_n$ is (up to a constant factor) the degree-$n$ orthogonal polynomial for $\rho$,
+and the nodes $x_k$ are its zeros.
+
+
+
+\section*{V. Prove a lemma}
+\subsection*{(a)}
+By Taylor's expansion with Lagrange remainder with \(u \in \mathcal{C}^4(\mathbb{R})\):
+\[
+u(\bar x-h) - 2u(\bar x) + u(\bar x+h)
+= h^2u''(\bar x) + \frac{-h^3}{3!}u'''(\bar x) + \frac{h^3}{3!}u'''(\bar x) + 2\frac{h^4}{4!}u^{(4)}(\xi(\bar x))
+\]
+So,
+\[
+RHS = u''(\bar x) + O(h^2)
+\]
+which is second-accurate. Then with the random errors:
+\[
+|u''(\bar x) - D^2u(\bar x)| = |\frac{\varepsilon_1+2\varepsilon_2+\varepsilon_3}{h^2} + 2\frac{h^2}{4!}u^{(4)}(\xi(\bar x))|
+\leqslant \frac{4E}{h^2} + \frac{h^2}{12}|u^{(4)}(\xi(\bar x))|
+\]
+And since the \(\xi(\bar x)\) is from the taylor expansion, So \(\xi(\bar x) \in (\bar x-h,\bar x+h)\).\\
+Assume \(M = \max\limits_{x \in (\bar x-h,\bar x+h)}|u^{(4)}(x)|\), Then
+\[
+|u''(\bar x) - D^2u(\bar x)| \leqslant \frac{4E}{h^2} + \frac{h^2}{12}M , \quad \forall h
+\]
+Then by basic equality RHS get the minimal value when \(h = (48\frac{E}{M})^{\frac{1}{4}}\). RHS \(= 2 \sqrt{\frac{ME}{3}} \) \\
+We suppuse
+\[
+D_4^2 u(\bar x)
+=\frac{a\,u(\bar x-2h)+b\,u(\bar x-h)+c\,u(\bar x)+b\,u(\bar x+h)+a\,u(\bar x+2h)}{h^2}.
+\]
+Taylor expansions about $\bar x$:
+\[
+u(\bar x\pm h)=u \pm h u' +\frac{h^2}{2}u'' \pm \frac{h^3}{6}u^{(3)}
++\frac{h^4}{24}u^{(4)}\pm \frac{h^5}{120}u^{(5)}+\frac{h^6}{720}u^{(6)}+O(h^7),
+\]
+\[
+u(\bar x\pm 2h)=u \pm 2h u' +\frac{(2h)^2}{2}u'' \pm \frac{(2h)^3}{6}u^{(3)}
++\frac{(2h)^4}{24}u^{(4)}\pm \frac{(2h)^5}{120}u^{(5)}+\frac{(2h)^6}{720}u^{(6)}+O(h^7).
+\]
+By symmetry, all odd-derivative terms cancel. Matching coefficients gives
+\[
+2a+2b+c=0,\qquad 4a+b=1,\qquad 16a+b=0,
+\]
+hence
+\[
+a=-\frac{1}{12},\qquad b=\frac{4}{3},\qquad c=-\frac{5}{2}.
+\]
+Therefore the 4th-order accurate symmetric formula is
+\[
+D_4^2 u(\bar x)
+=\frac{-u(\bar x-2h)+16u(\bar x-h)-30u(\bar x)+16u(\bar x+h)-u(\bar x+2h)}{12h^2}.
+\]
+Moreover, for some $\xi\in(\bar x-2h,\bar x+2h)$,
+\[
+u''(\bar x)-D_4^2u(\bar x)= -\frac{h^4}{90}\,u^{(6)}(\xi),
+\]
+so
+\[
+\bigl|u''(\bar x)-D_4^2u(\bar x)\bigr|
+\le \frac{h^4}{90}\max_{x\in(\bar x-2h,\bar x+2h)}|u^{(6)}(x)|.
+\]
+\[
+\bigl|u''(\bar x)-D_4^2u(\bar x)\bigr|
+\le \frac{M_6}{90}h^4+\frac{16E}{3h^2},
+\qquad
+M_6:=\max_{x\in(\bar x-2h,\bar x+2h)}|u^{(6)}(x)|.
+\]
+Minimizing the upper bound yields
+\[
+h_{4}=\left(\frac{240E}{M_6}\right)^{1/6},
+\qquad
+\Phi_4(h_{4})
+=\left(\frac{32}{15}\right)^{1/3}M_6^{1/3}E^{2/3}.
+\]
+
+\begin{itemize}
+  \item \textbf{Optimal step size.}
+  Since \(h_{2}\propto E^{1/4}\) while \(h_{4}\propto E^{1/6}\),
+  for small noise levels \(E\in(0,1)\) we have \(E^{1/6}>E^{1/4}\), hence
+  \[
+  h_{4} \ \text{is typically larger than}\ h_{2}.
+  \]
+  In other words, the 4th-order method does not require taking \(h\) extremely small;
+  making \(h\) too small mainly amplifies noise.
+
+  \item \textbf{Minimized error bound vs noise level.}
+  The optimized bounds scale as
+  \[
+  \Phi_2(h_{2})\propto E^{1/2},
+  \qquad
+  \Phi_4(h_{4})\propto E^{2/3}.
+  \]
+  For \(E\in(0,1)\), \(E^{2/3}<E^{1/2}\), so the 4th-order stencil yields
+  a smaller optimal upper bound (a better truncation--noise tradeoff).
+
+  \item \textbf{Cost/regularity.}
+  The 4th-order stencil uses more points (5 instead of 3) and requires higher smoothness
+  (involving \(u^{(6)}\)). Its coefficients are larger in magnitude, which increases the
+  noise-amplification constant in the \(E/h^2\) term, but after optimizing \(h\) the faster
+  \(h^4\) truncation decay typically dominates.
+\end{itemize}
+
+\end{document}
